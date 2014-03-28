@@ -7,12 +7,12 @@ trait Core {
 }
 
 trait BootedCore extends Core {
-	implicit val system = ActorSystem("worldcup-madness")
-	
-	scala.sys.addShutdownHook(shutDownSystem())
+  implicit val system = ActorSystem("worldcup-madness")
 
-	private def shutDownSystem() {
-	  println("Shutting down...")
-	  system.shutdown()
-	}
+  scala.sys.addShutdownHook(shutDownSystem())
+
+  private def shutDownSystem() {
+    println("Shutting down...")
+    system.shutdown()
+  }
 }
