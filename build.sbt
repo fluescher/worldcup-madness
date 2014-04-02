@@ -6,6 +6,10 @@ version := "1.0"
 
 scalaVersion := "2.10.4"
 
+mainClass in (Compile, run) := Some("com.zuehlke.worldcup.Main")
+
+mainClass in assembly := Some("com.zuehlke.worldcup.Main")
+
 resolvers += "spray repo" at "http://repo.spray.io"
 
 resolvers += "spray nightlies" at "http://nightlies.spray.io"
