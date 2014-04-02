@@ -1,17 +1,20 @@
 package com.zuehlke.worldcup.http.content
 
-import akka.actor.Actor
-import akka.actor.Props
+import com.zuehlke.worldcup.http.RouteProvider
+
+import akka.actor.ActorSystem
+import spray.http.StatusCodes
 import spray.routing.Directive.pimpApply
 import spray.routing.Directives
-import spray.routing.HttpService
 import spray.util.SprayActorLogging
-import akka.actor.ActorSystem
-import scala.concurrent.ExecutionContext
-import com.zuehlke.worldcup.http.RouteProvider
 
 class StaticContent()(implicit system: ActorSystem) extends RouteProvider with Directives {
   override val route =
+    path("") {
+	  get {
+	    redirect("ui", StatusCodes.MovedPermanently)
+	  }
+    } ~
     path("ui") {
       get {
         getFromResource("ui/index.html")
