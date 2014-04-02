@@ -1,3 +1,5 @@
+import AssemblyKeys._
+
 name := "worldcup-madness"
 
 version := "1.0"
@@ -32,3 +34,5 @@ scalacOptions ++= Seq(
 )
 
 EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
+
+jarName in assembly := "worldcup-madness.jar"

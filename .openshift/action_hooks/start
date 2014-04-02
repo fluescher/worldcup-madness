@@ -1,0 +1,11 @@
+#!/bin/bash
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+SBT_PATH=$OPENSHIFT_DATA_DIR/sbt
+SBT_DIR=$OPENSHIFT_DATA_DIR/.sbt
+IVY_DIR=$OPENSHIFT_DATA_DIR/.ivy
+
+cd $OPENSHIFT_REPO_DIR
+
+echo "Starting application"
+nohup java -cp ./target/scala-2.10/worldcup-madness.jar com.zuehlke.worldcup.Openshift < /dev/null > ${OPENSHIFT_DIY_LOG_DIR}server.log 2>&1 &

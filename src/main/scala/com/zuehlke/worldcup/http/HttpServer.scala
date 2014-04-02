@@ -10,13 +10,14 @@ import spray.can.Http
 import com.zuehlke.worldcup.core.Core
 import akka.actor.Props
 import com.zuehlke.worldcup.http.content.StaticContent
+import com.zuehlke.worldcup.config.RuntimeConfiguration
 
 trait HttpServer extends RouteConcatenation {
-  this: Core =>
+  this: Core with RuntimeConfiguration =>
 
   val routes = new StaticContent().route
 
-  IO(Http)(system) ! Http.Bind(system.actorOf(Props(new RoutedHttpServer(routes))), "0.0.0.0", port = 8080)
+  IO(Http)(system) ! Http.Bind(system.actorOf(Props(new RoutedHttpServer(routes))), ip, port = port)
 }
 
 trait RouteProvider {
