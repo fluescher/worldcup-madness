@@ -12,11 +12,12 @@ import akka.actor.Props
 import com.zuehlke.worldcup.http.content.StaticContent
 import com.zuehlke.worldcup.config.RuntimeConfiguration
 import akka.actor.ActorLogging
+import com.zuehlke.worldcup.http.api.Api
 
 trait HttpServer extends RouteConcatenation {
   this: Core with RuntimeConfiguration =>
 
-  val routes = new StaticContent().route
+  val routes = new StaticContent().route ~ new Api().route
 
   IO(Http)(system) ! Http.Bind(system.actorOf(Props(new RoutedHttpServer(routes))), ip, port = port)
 }
