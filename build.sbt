@@ -4,7 +4,7 @@ name := "worldcup-madness"
 
 version := "1.0"
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.0"
 
 mainClass in (Compile, run) := Some("com.zuehlke.worldcup.Main")
 
@@ -12,19 +12,18 @@ mainClass in assembly := Some("com.zuehlke.worldcup.Main")
 
 resolvers += "spray repo" at "http://repo.spray.io"
 
-resolvers += "spray nightlies" at "http://nightlies.spray.io"
-
 libraryDependencies ++= Seq(
-  "com.typesafe.akka"       %% "akka-actor"         % "2.2.0",
-  "com.typesafe.akka"       %% "akka-slf4j"         % "2.2.0",
+  "com.typesafe.akka"       %% "akka-actor"         % "2.3.2",
+  "com.typesafe.akka"       %% "akka-persistence-experimental" % "2.3.2",
+  "com.typesafe.akka"       %% "akka-slf4j"         % "2.3.2",
   "ch.qos.logback"          % "logback-classic"     % "1.0.13",
-  "io.spray"                % "spray-can"           % "1.2-20130712",
-  "io.spray"                % "spray-routing"       % "1.2-20130712",
-  "io.spray"                %% "spray-json"         % "1.2.3",
-  "io.spray"                % "spray-testkit"       % "1.2-20130712"    % "test",
-  "com.typesafe.akka"       %% "akka-testkit"       % "2.2.0"           % "test",
+  "io.spray"                %% "spray-can"           % "1.3.1-20140423",
+  "io.spray"                %% "spray-routing"       % "1.3.1-20140423",
+  "io.spray"                %% "spray-json"         % "1.2.6",
+  "io.spray"                %% "spray-testkit"       % "1.3.1-20140423"    % "test",
+  "com.typesafe.akka"       %% "akka-testkit"       % "2.3.2"           % "test",
   "com.novocode"            % "junit-interface"	    % "0.7"             % "test->default",
-  "org.scalatest"           %% "scalatest"          % "2.1.0"           % "test"
+  "org.scalatest"           %% "scalatest"          % "2.1.6"           % "test"
 )
 
 scalacOptions ++= Seq(

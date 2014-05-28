@@ -11,6 +11,7 @@ import com.zuehlke.worldcup.core.Core
 import akka.actor.Props
 import com.zuehlke.worldcup.http.content.StaticContent
 import com.zuehlke.worldcup.config.RuntimeConfiguration
+import akka.actor.ActorLogging
 
 trait HttpServer extends RouteConcatenation {
   this: Core with RuntimeConfiguration =>
@@ -24,7 +25,7 @@ trait RouteProvider {
   val route: Route
 }
 
-class RoutedHttpServer(private val route: Route) extends Actor with HttpService with SprayActorLogging {
+class RoutedHttpServer(private val route: Route) extends Actor with HttpService with ActorLogging {
   implicit def actorRefFactory = context
 
   def receive = runRoute(route)
