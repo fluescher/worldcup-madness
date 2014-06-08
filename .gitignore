@@ -5,5 +5,7 @@ target
 .cache
 .worksheet
 *.sc
-/src/main/js/nbproject/private/
+.idea
+*.iml
+/src/main/js/nbproject/
 /src/main/resources/ui/
