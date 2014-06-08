@@ -11,17 +11,12 @@ import spray.util.SprayActorLogging
 class StaticContent()(implicit system: ActorSystem) extends RouteProvider with Directives {
   override val route =
     path("") {
-	  get {
-	    redirect("ui", StatusCodes.MovedPermanently)
-	  }
-    } ~
-    path("ui") {
       get {
         getFromResource("ui/index.html")
       }
     } ~
-    pathPrefix("ui") {
-      getFromResourceDirectory("ui")
+    pathPrefix("") {
+      getFromResourceDirectory("ui/")
     }
 }
 
