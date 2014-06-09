@@ -7,5 +7,4 @@ target
 *.sc
 .idea
 *.iml
-/src/main/js/nbproject/
 /src/main/resources/ui/
