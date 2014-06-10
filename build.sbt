@@ -4,7 +4,7 @@ name := "worldcup-madness"
 
 version := "1.0"
 
-scalaVersion := "2.11.0"
+scalaVersion := "2.11.1"
 
 mainClass in (Compile, run) := Some("com.zuehlke.worldcup.Main")
 
