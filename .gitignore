@@ -5,3 +5,6 @@ target
 .cache
 .worksheet
 *.sc
+.idea
+*.iml
+/src/main/resources/ui/
