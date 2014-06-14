@@ -94,7 +94,15 @@ module.exports = function (grunt) {
         }
       }
     },
-
+    
+    protractor: {
+      options: {
+        keepAlive: true,
+        configFile: 'protractor.conf.js'
+      },
+      run: {}
+    },
+    
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
       options: {
@@ -376,7 +384,12 @@ module.exports = function (grunt) {
     'connect:test',
     'karma'
   ]);
-
+  
+  grunt.registerTask('e2e', [
+    'connect:test',
+    'protractor:run'
+  ]);
+  
   grunt.registerTask('build', [
     'clean:dist',
     'bowerInstall',
