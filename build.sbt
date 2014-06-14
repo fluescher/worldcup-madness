@@ -4,7 +4,7 @@ name := "worldcup-madness"
 
 version := "1.0"
 
-scalaVersion := "2.11.0"
+scalaVersion := "2.11.1"
 
 mainClass in (Compile, run) := Some("com.zuehlke.worldcup.Main")
 
@@ -39,3 +39,9 @@ scalacOptions ++= Seq(
 EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
 
 jarName in assembly := "worldcup-madness.jar"
+
+fork := true
+
+cleanFiles <+= baseDirectory { base => base / "journal" }
+
+cleanFiles <+= baseDirectory { base => base / "snapshots" }
