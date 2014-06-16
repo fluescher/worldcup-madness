@@ -21,8 +21,6 @@ import com.zuehlke.worldcup.core.GameManager.GetGamesResult
 import com.zuehlke.worldcup.core.GameManager.GetGroupsResult
 import spray.http.HttpHeaders._
 import spray.http.AllOrigins
-import spray.http.SomeOrigins
-import spray.http.HttpOrigin
 import spray.http.HttpHeader
 
 class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends RouteProvider with Directives {
@@ -49,7 +47,7 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
 
   override val route =
     pathPrefix("api") {
-      respondWithHeader(`Access-Control-Allow-Origin`(SomeOrigins(List(HttpOrigin("http", Host("localhost",9000)))))) {
+      respondWithHeader(`Access-Control-Allow-Origin`(AllOrigins)) {
         path("register") {
           post {
             complete(s"You registered")
