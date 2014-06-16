@@ -1,19 +1,19 @@
 'use strict';
 
 angular
-  .module('worldcupApp', [
-    'ngCookies',
-    'ngResource',
-    'ngSanitize',
-    'ngRoute'
-  ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-  });
+    .module('worldcupApp', [
+        'ngCookies',
+        'ngResource',
+        'ngSanitize',
+        'ngRoute'
+    ])
+    .config(function ($routeProvider) {
+        $routeProvider
+            .when('/', {
+                templateUrl: 'views/main.html',
+                controller: 'MainCtrl'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+    });
