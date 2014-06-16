@@ -40,8 +40,6 @@ EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
 
 jarName in assembly := "worldcup-madness.jar"
 
-fork := true
-
 cleanFiles <+= baseDirectory { base => base / "journal" }
 
 cleanFiles <+= baseDirectory { base => base / "snapshots" }
