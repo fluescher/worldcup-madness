@@ -36,11 +36,9 @@ scalacOptions ++= Seq(
   "-encoding", "UTF-8"
 )
 
-EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
+//EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
 
 jarName in assembly := "worldcup-madness.jar"
-
-fork := true
 
 cleanFiles <+= baseDirectory { base => base / "journal" }
 
