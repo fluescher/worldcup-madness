@@ -13,4 +13,10 @@ object Groups {
 		  						Game(new Date().toString(), ecuador,honduras, None),
 		  						Game(new Date().toString(), honduras, switzerland, None),
 		  						Game(new Date().toString(), france, ecuador, None)))
+  
+  val groupB = Group("B", List())
+  
+  val groupC = Group("C", List())
+  
+  val groupD = Group("D", List())
 }
