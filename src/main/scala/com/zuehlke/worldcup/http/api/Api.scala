@@ -26,8 +26,7 @@ class Api()(implicit system: ActorSystem) extends RouteProvider with Directives 
 
   def staticUserName(userPass: Option[UserPass]): Future[Option[String]] =
     Future {
-      if (userPass.exists(up => up.user == "admin" && up.pass == "1234")) Some("Admin")
-      else None
+	  userPass.map(_.user)
     }
 
 }
