@@ -48,6 +48,7 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
   override val route =
     pathPrefix("api") {
       respondWithHeader(`Access-Control-Allow-Origin`(AllOrigins)) {
+        respondWithHeader(`Access-Control-Allow-Credentials`(true)) {
         path("register") {
           post {
             complete(s"You registered")
@@ -88,6 +89,7 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
                 }
               }
           }
+        }
       }
     }
 
