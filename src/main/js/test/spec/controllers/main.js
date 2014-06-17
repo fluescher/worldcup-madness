@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: GamesCtrl', function () {
 
     // load the controller's module
     beforeEach(module('worldcupApp'));
@@ -16,7 +16,7 @@ describe('Controller: MainCtrl', function () {
         });
     }));
 
-    it('should attach a list of awesomeThings to the scope', function () {
+    it('there is nothing to see here', function () {
         expect(2 + 1).toBe(3);
     });
 });
