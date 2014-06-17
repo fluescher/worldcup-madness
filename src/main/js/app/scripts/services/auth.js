@@ -3,7 +3,7 @@
 worldcup.factory('Auth', function ($rootScope, $q, BasicAuth, User) {
     var Auth = {};
 
-    var isLoggedIn = false;
+    var user = null;
     var errorCallback = null;
 
     Auth.login = function (credentials, success, error) {
@@ -11,18 +11,22 @@ worldcup.factory('Auth', function ($rootScope, $q, BasicAuth, User) {
 
         BasicAuth.setCredentials(credentials);
 
-        User.get(function (user) {
-            isLoggedIn = true;
-            success(user);
+        User.get(function (data) {
+            user = data;
+            success(data);
         });
     };
 
     Auth.isLoggedIn = function(){
-        return isLoggedIn;
+        return user !== null;
+    };
+
+    Auth.getUser = function() {
+        return user;
     };
 
     $rootScope.$on('Auth:loginFailed', function () {
-        isLoggedIn = false;
+        user = null;
         errorCallback('Username or password wrong.');
     });
 
