@@ -3,13 +3,16 @@
  */
 'use strict';
 
-worldcup.controller('RegisterCtrl', function ($scope) {
-    $scope.register = {};
-    $scope.register.email = '';
-    $scope.register.password = '';
-    $scope.register.nickname = '';
-    $scope.register.forename = '';
-    $scope.register.surname = '';
-    $scope.register.submitRegister = function () {
+worldcup.controller('RegisterCtrl', function ($scope, registration, $http) {
+    $scope.register = {
+        email: '',
+        password: '',
+        nickname: '',
+        forename: '',
+        surname: ''
+    };
+
+    $scope.register.submitRegister = function (register) {
+        registration.register(register);
     };
 });
