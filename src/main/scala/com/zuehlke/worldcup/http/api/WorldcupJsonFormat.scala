@@ -16,7 +16,4 @@ object WorldcupJsonFormat {
   implicit val gameResultFormat = jsonFormat2(GameResult)
   implicit val gameFormat = jsonFormat4(Game.apply)
   implicit val groupFormat = jsonFormat2(Group.apply)
-
-  implicit val getGroupsResultFormat = jsonFormat1(GetGroupsResult)
-  implicit val getGamesResultFormat = jsonFormat1(GetGamesResult)
 }
