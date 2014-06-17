@@ -8,6 +8,7 @@ trait Core {
   implicit def system: ActorSystem
   
   val gameManager: ActorRef
+  val userManager: ActorRef
 }
 
 trait BootedCore extends Core {
@@ -15,6 +16,7 @@ trait BootedCore extends Core {
 
   val betAccountant = system.actorOf(Bookie.props, name = "betAccountant")
   override val gameManager = system.actorOf(GameManager.props, name ="gameManager")
+  override val userManager = system.actorOf(UserManager.props, name ="userManager")
   
   betAccountant ! Persistent("foo") // will be journaled
   betAccountant ! "bar"

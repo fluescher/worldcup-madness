@@ -12,7 +12,7 @@ import com.zuehlke.worldcup.core.GameManager._
 
 object WorldcupJsonFormat {
  implicit val teamFormat = jsonFormat3(Team.apply)
-  implicit val userFormat = jsonFormat2(User.apply)
+  implicit val userFormat = jsonFormat5(User.apply)
   implicit val gameResultFormat = jsonFormat2(GameResult)
   implicit val gameFormat = jsonFormat4(Game.apply)
   implicit val groupFormat = jsonFormat2(Group.apply)

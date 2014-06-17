@@ -22,8 +22,11 @@ import com.zuehlke.worldcup.core.GameManager.GetGroupsResult
 import spray.http.HttpHeaders._
 import spray.http.AllOrigins
 import spray.http.HttpHeader
+import spray.http.StatusCodes
+import com.zuehlke.worldcup.core.UserManager
+import akka.persistence.Persistent
 
-class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends RouteProvider with Directives {
+class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system: ActorSystem) extends RouteProvider with Directives {
 
   import spray.json._
   import DefaultJsonProtocol._
@@ -43,8 +46,16 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
             respondWithHeader(RawHeader("Access-Control-Allow-Headers", "Authorization")) {
 		        path("register") {
 		          post {
-		            complete(s"You registered")
-		          } 
+		            entity(as[User]) { user => 
+			            complete {
+			              import UserManager._
+			              (userManager ? Persistent(RegisterUser(user))).map({
+			                case UserAlreadyExists => StatusCodes.BadRequest
+			                case UserRegistered => StatusCodes.OK 
+			              })
+			              }
+			            }
+		            }
 		        } ~
 		          authenticate(BasicAuth(staticUserName _, realm = "worldcup-madness")) { username =>
 		            path("groups") {
@@ -76,7 +87,7 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
 		              path("user") {
 		                get {
 		                  complete {
-		                    new User(username, "")
+		                    new User(username, "", "", "", "")
 		                  }
 		                }
 		              }
