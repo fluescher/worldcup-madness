@@ -33,6 +33,10 @@ import akka.persistence.Persistent
 import spray.http.HttpCredentials
 import spray.routing.RequestContext
 import spray.routing.authentication.HttpAuthenticator
+import com.zuehlke.worldcup.core.RankingCalculator
+import com.zuehlke.worldcup.core.RankingCalculator
+import com.zuehlke.worldcup.core.RankingCalculator
+import com.zuehlke.worldcup.core.model.Ranking
 
 class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system: ActorSystem) extends RouteProvider with Directives {
 
@@ -81,7 +85,10 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system:
 		              } ~
 		              path("ranking") {
 		                get {
-		                  complete("ranking")
+		                  complete {
+		                    //RankingCalculator.calculate()
+		                    List(Ranking("pas", 12), Ranking("fllu", 15)).sortBy(_.points)
+		                  }
 		                } 
 		              } ~
 		              path("games") {
