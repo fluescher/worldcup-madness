@@ -52,7 +52,7 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
         path("register") {
           post {
             complete(s"You registered")
-          }
+          } 
         } ~
           authenticate(BasicAuth(staticUserName _, realm = "worldcup-madness")) { username =>
             path("groups") {
@@ -71,7 +71,7 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
               path("ranking") {
                 get {
                   complete("ranking")
-                }
+                } 
               } ~
               path("games") {
                 get {
@@ -88,7 +88,10 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
                   }
                 }
               }
-          }
+          } ~
+	      options {
+	      	complete { "" }
+	      }
         }
       }
     }
