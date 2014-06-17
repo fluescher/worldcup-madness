@@ -3,11 +3,11 @@
  */
 'use strict';
 
-worldcup.controller('RegisterCtrl', function ($scope, registration, $http) {
+worldcup.controller('RegisterCtrl', function ($scope, registration) {
     $scope.register = {
         email: '',
         password: '',
-        nickname: '',
+        name: '',
         forename: '',
         surname: ''
     };
