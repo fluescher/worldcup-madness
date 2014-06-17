@@ -43,31 +43,12 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
 
   import WorldcupJsonFormat._
 
-  class CORSBasicAuth[U](val userPassAuthenticator: UserPassAuthenticator[U], val realm: String)(override implicit val executionContext: ExecutionContext)
-  					 extends HttpAuthenticator[U]{
-    def authenticate(credentials: Option[HttpCredentials], ctx: RequestContext) = {
-	  userPassAuthenticator {
-	    credentials.flatMap {
-	      case BasicHttpCredentials(user, pass) ⇒ Some(UserPass(user, pass))
-	      case _ ⇒ None
-	    }
-	  }
-	}
-    
-    override def getChallengeHeaders(httpRequest: HttpRequest) = List(
-      `Access-Control-Allow-Origin`(AllOrigins),
-      `Access-Control-Allow-Credentials`(true),
-      RawHeader("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT"),
-      RawHeader("Access-Control-Allow-Headers", "Authorization"),
-      `WWW-Authenticate`(HttpChallenge(scheme = "Basic", realm = realm, params = Map.empty)))
-  }
-  
   override val route =
     pathPrefix("api") {
       respondWithHeader(`Access-Control-Allow-Origin`(AllOrigins)) {
         respondWithHeader(`Access-Control-Allow-Credentials`(true)) {
           respondWithHeader(RawHeader("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT")) {
-            respondWithHeader(RawHeader("Access-Control-Allow-Headers", "Authorization")) {
+            respondWithHeader(RawHeader("Access-Control-Allow-Headers", "Authorization,Accept,content-type")) {
 		        path("register") {
 		          post {
 		            complete(s"You registered")
