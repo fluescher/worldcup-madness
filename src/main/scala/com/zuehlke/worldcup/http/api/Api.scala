@@ -65,7 +65,7 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system:
 			            }
 		            }
 		        } ~
-		          authenticate(new CORSBasicAuth(staticUserName _, realm = "worldcup-madness")) { username =>
+		          authenticate(new CORSBasicAuth(staticUserName _, realm = "worldcup-madness")) { user =>
 		            path("groups") {
 		              get {
 		                complete {
@@ -95,7 +95,7 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system:
 		              path("user") {
 		                get {
 		                  complete {
-		                    new User(username, "", "", "", "")
+		                    user
 		                  }
 		                }
 		              }
@@ -109,15 +109,15 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system:
       }
     }
 
-  def staticUserName(userPass: Option[UserPass]): Future[Option[String]] =
-    Future {
-      userPass.flatMap(up => {
-        if(up.user== "dummy" && up.pass == "1234") {
-          Some("dummy")
-        } else {
-          None
-        }
-      })
+  def staticUserName(userPass: Option[UserPass]): Future[Option[User]] = {
+    userPass match {
+      case None 			=> Future(None)
+      case Some(userPass) 	=>
+		import UserManager._
+		(userManager ? AuthorizeUser(userPass.user, userPass.pass)).map({
+		  case UserAuthorized(user) => Some(user)
+		  case _					=> None
+		})
     }
-
+  }	
 }

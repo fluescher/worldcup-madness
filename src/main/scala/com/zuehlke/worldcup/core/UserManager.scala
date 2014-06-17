@@ -23,6 +23,13 @@ class UserManager extends Processor with ActorLogging {
        	log.info(s"user ${user.name} registered" )
        	sender ! UserRegistered
      }
+     
+   case AuthorizeUser(name, password) =>
+     if (users.contains(name) && users(name).password  == password) {
+    	 sender ! UserAuthorized(users(name))
+     } else {
+    	 sender ! UserNotAuthorized
+     }
  } 
   
 }
@@ -33,18 +40,10 @@ object UserManager {
   case object UserAlreadyExists
   case object UserRegistered
   
+  case class AuthorizeUser(name: String, password: String)
+  case class UserAuthorized(user: User)
+  case object UserNotAuthorized
+  
   def props(): Props =
     Props(new UserManager())
 }
-
-//  def receive = {
-//	case Persistent(payload, sequenceNr) => 
-//	  println("got journaled: " + payload)
-//	  sender ! payload
-//	case PersistenceFailure(payload, sequenceNr, cause) =>
-//	  println("unable to journal: " + payload)
-//	case payload => 
-//	  println("unjournaled: " + payload)
-//  }
-//}
-
