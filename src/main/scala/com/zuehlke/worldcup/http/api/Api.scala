@@ -51,57 +51,64 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
         respondWithHeader(`Access-Control-Allow-Credentials`(true)) {
           respondWithHeader(RawHeader("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT")) {
             respondWithHeader(RawHeader("Access-Control-Allow-Headers", "Authorization")) {
-        path("register") {
-          post {
-            complete(s"You registered")
-          } 
-        } ~
-          authenticate(BasicAuth(staticUserName _, realm = "worldcup-madness")) { username =>
-            path("groups") {
-              get {
-                complete {
-                  import GameManager._
-                  (gameManager ? GetGroups).mapTo[GetGroupsResult]
-                }
-              }
-            } ~
-              path("tipps") {
-                get {
-                  complete("tipps")
-                }
-              } ~
-              path("ranking") {
-                get {
-                  complete("ranking")
-                } 
-              } ~
-              path("games") {
-                get {
-                  complete {
-                    import GameManager._
-                    (gameManager ? GetGames).mapTo[GetGamesResult]
-                  }
-                }
-              } ~
-              path("user") {
-                get {
-                  complete {
-                    new User(username, "")
-                  }
-                }
-              }
-          } ~
-	      options {
-	      	complete { "" }
-	      }
-        }
-        }}
+		        path("register") {
+		          post {
+		            complete(s"You registered")
+		          } 
+		        } ~
+		          authenticate(BasicAuth(staticUserName _, realm = "worldcup-madness")) { username =>
+		            path("groups") {
+		              get {
+		                complete {
+		                  import GameManager._
+		                  (gameManager ? GetGroups).mapTo[GetGroupsResult]
+		                }
+		              }
+		            } ~
+		              path("tipps") {
+		                get {
+		                  complete("tipps")
+		                }
+		              } ~
+		              path("ranking") {
+		                get {
+		                  complete("ranking")
+		                } 
+		              } ~
+		              path("games") {
+		                get {
+		                  complete {
+		                    import GameManager._
+		                    (gameManager ? GetGames).mapTo[GetGamesResult]
+		                  }
+		                }
+		              } ~
+		              path("user") {
+		                get {
+		                  complete {
+		                    new User(username, "")
+		                  }
+		                }
+		              }
+		          } ~
+			      options {
+			      	complete { "" }
+			      }
+		        }
+          	}
+          }
       }
     }
 
   def staticUserName(userPass: Option[UserPass]): Future[Option[String]] =
     Future {
-      userPass.map(_.user)
+      userPass.flatMap(up => {
+        if(up.user== "dummy" && up.pass == "1234") {
+          Some("dummy")
+        } else {
+          None
+        }
+      })
     }
 
 }
