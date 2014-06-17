@@ -51,7 +51,12 @@ class MatchUpdater(val gameManager: ActorRef) extends Actor with ActorLogging {
     })
   
   def mapGameToTeams(game: FootballGame, teams: List[Team]): Game = 
-    Game(game.play_at, findTeam(game.team1_key, teams), findTeam(game.team2_key, teams), None)
+    Game(game.play_at, findTeam(game.team1_key, teams), findTeam(game.team2_key, teams), getResult(game))
+    
+  def getResult(game: FootballGame): Option[GameResult] = (game.score1, game.score2) match {
+    case (Some(score1), Some(score2)) => Some(GameResult(score1, score2))
+    case _ => None
+  }
     
   def findTeam(key: String, teams: List[Team]) = teams.find(_.abbreviation == key).getOrElse(null)
     
