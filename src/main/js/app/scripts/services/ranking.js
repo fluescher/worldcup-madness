@@ -3,6 +3,6 @@
  */
 'use strict';
 
-worldcup.factory('Ranking', function ($resource) {
+worldcup.factory('Ranking', ['$resource', function ($resource) {
     return $resource('http://localhost:8080/api/ranking/');
-});
+}]);
