@@ -22,6 +22,14 @@ import com.zuehlke.worldcup.core.GameManager.GetGroupsResult
 import spray.http.HttpHeaders._
 import spray.http.AllOrigins
 import spray.http.HttpHeader
+import spray.routing.authentication.UserPassAuthenticator
+import spray.http.HttpChallenge
+import spray.http.HttpRequest
+import scala.concurrent.ExecutionContext
+import spray.http.BasicHttpCredentials
+import spray.http.HttpCredentials
+import spray.routing.RequestContext
+import spray.routing.authentication.HttpAuthenticator
 
 class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends RouteProvider with Directives {
 
@@ -35,6 +43,25 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
 
   import WorldcupJsonFormat._
 
+  class CORSBasicAuth[U](val userPassAuthenticator: UserPassAuthenticator[U], val realm: String)(override implicit val executionContext: ExecutionContext)
+  					 extends HttpAuthenticator[U]{
+    def authenticate(credentials: Option[HttpCredentials], ctx: RequestContext) = {
+	  userPassAuthenticator {
+	    credentials.flatMap {
+	      case BasicHttpCredentials(user, pass) ⇒ Some(UserPass(user, pass))
+	      case _ ⇒ None
+	    }
+	  }
+	}
+    
+    override def getChallengeHeaders(httpRequest: HttpRequest) = List(
+      `Access-Control-Allow-Origin`(AllOrigins),
+      `Access-Control-Allow-Credentials`(true),
+      RawHeader("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT"),
+      RawHeader("Access-Control-Allow-Headers", "Authorization"),
+      `WWW-Authenticate`(HttpChallenge(scheme = "Basic", realm = realm, params = Map.empty)))
+  }
+  
   override val route =
     pathPrefix("api") {
       respondWithHeader(`Access-Control-Allow-Origin`(AllOrigins)) {
@@ -46,7 +73,7 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
 		            complete(s"You registered")
 		          } 
 		        } ~
-		          authenticate(BasicAuth(staticUserName _, realm = "worldcup-madness")) { username =>
+		          authenticate(new CORSBasicAuth(staticUserName _, realm = "worldcup-madness")) { username =>
 		            path("groups") {
 		              get {
 		                complete {
