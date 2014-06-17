@@ -50,8 +50,8 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system:
     pathPrefix("api") {
       respondWithHeader(`Access-Control-Allow-Origin`(AllOrigins)) {
         respondWithHeader(`Access-Control-Allow-Credentials`(true)) {
-          respondWithHeader(RawHeader("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT")) {
-            respondWithHeader(RawHeader("Access-Control-Allow-Headers", "Authorization,Accept,content-type")) {
+          respondWithHeader(RawHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT")) {
+            respondWithHeader(RawHeader("Access-Control-Allow-Headers", "Authorization, Accept, Content-Type, x-requested-with")) {
 		        path("register") {
 		          post {
 		            entity(as[User]) { user => 

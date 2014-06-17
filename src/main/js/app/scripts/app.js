@@ -4,7 +4,8 @@ var worldcup = angular.module('worldcupApp', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute'
+    'ngRoute',
+    'ngGrid'
 ]);
 
 worldcup.config(function ($routeProvider) {
@@ -21,6 +22,10 @@ worldcup.config(function ($routeProvider) {
         .when('/register', {
             templateUrl: 'views/register.html',
             controller: 'RegisterCtrl'
+        })
+        .when('/rankings/', {
+            templateUrl: 'views/rankings.html',
+            controller: 'RankingsCtrl'
         })
         .otherwise({
             redirectTo: '/'

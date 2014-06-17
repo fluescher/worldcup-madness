@@ -1,0 +1,23 @@
+<div>
+    <div class="panel">
+        <label class="col-sm-2 control-label">Your rank is: {{yourRank}}</label>
+
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <th>rank</th>
+            <th>player</th>
+            <th>points</th>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in rows" ng-click="show(row)">
+                <td>{{row.rank}}</td>
+                <td>{{row.player}}</td>
+                <td>{{row.points}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
