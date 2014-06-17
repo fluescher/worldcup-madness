@@ -22,7 +22,7 @@ class MatchUpdater(val gameManager: ActorRef) extends Actor with ActorLogging {
   implicit val system = context.system
   
   val tick =
-    context.system.scheduler.schedule(0.seconds, 10.seconds, self, UpdateGames)
+    context.system.scheduler.schedule(0.seconds, 10.minutes, self, UpdateGames)
   
   def receive = {
     case UpdateGames => 
