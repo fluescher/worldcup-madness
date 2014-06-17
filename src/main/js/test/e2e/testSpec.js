@@ -1,3 +1,4 @@
+'use strict';
 describe('index', function () {
 
     browser.get('index.html');

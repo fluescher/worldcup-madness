@@ -4,16 +4,17 @@
 'use strict';
 
 worldcup.controller('RankingsCtrl', function ($rootScope, $scope, Auth, Ranking) {
-    $scope.players = null;
-    Ranking.get(function(data) {
-        console.log(data);
-        $scope.players = data;
-    });
+    $scope.players = Ranking.query();
+
     $scope.yourRank = function() {
         for (var i = 0; i < $scope.players.length; i++) {
-            if($scope.players.name === Auth.getUser().name) {
-                return $scope.players;
+            if($scope.players[i].username === Auth.getUser().name) {
+                return $scope.players[i].points;
             }
         }
+    };
+
+    $scope.show = function(player) {
+        console.log(player.username);
     };
 });

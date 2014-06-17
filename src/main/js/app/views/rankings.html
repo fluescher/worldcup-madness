@@ -1,22 +1,21 @@
 <div>
     <div class="panel">
-        <label class="col-sm-2 control-label">Your rank is: {{yourRank}}</label>
+        <label class="col-sm-2 control-label">Your rank is: {{yourRank()}}</label>
 
     </div>
-
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>rank</th>
-                <th>player</th>
-                <th>points</th>
+                <th>Rank</th>
+                <th>Player</th>
+                <th>Points</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="player in players" ng-click="show(player)">
                 <td>{{player.rank}}</td>
-                <td>{{player.name}}</td>
+                <td>{{player.username}}</td>
                 <td>{{player.points}}</td>
             </tr>
             </tbody>
