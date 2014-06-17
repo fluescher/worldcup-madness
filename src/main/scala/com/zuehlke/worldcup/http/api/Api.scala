@@ -22,9 +22,17 @@ import com.zuehlke.worldcup.core.GameManager.GetGroupsResult
 import spray.http.HttpHeaders._
 import spray.http.AllOrigins
 import spray.http.HttpHeader
+import spray.routing.authentication.UserPassAuthenticator
+import spray.http.HttpChallenge
+import spray.http.HttpRequest
+import scala.concurrent.ExecutionContext
+import spray.http.BasicHttpCredentials
 import spray.http.StatusCodes
 import com.zuehlke.worldcup.core.UserManager
 import akka.persistence.Persistent
+import spray.http.HttpCredentials
+import spray.routing.RequestContext
+import spray.routing.authentication.HttpAuthenticator
 
 class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system: ActorSystem) extends RouteProvider with Directives {
 
@@ -43,7 +51,7 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system:
       respondWithHeader(`Access-Control-Allow-Origin`(AllOrigins)) {
         respondWithHeader(`Access-Control-Allow-Credentials`(true)) {
           respondWithHeader(RawHeader("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT")) {
-            respondWithHeader(RawHeader("Access-Control-Allow-Headers", "Authorization")) {
+            respondWithHeader(RawHeader("Access-Control-Allow-Headers", "Authorization,Accept,content-type")) {
 		        path("register") {
 		          post {
 		            entity(as[User]) { user => 
@@ -57,7 +65,7 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system:
 			            }
 		            }
 		        } ~
-		          authenticate(BasicAuth(staticUserName _, realm = "worldcup-madness")) { username =>
+		          authenticate(new CORSBasicAuth(staticUserName _, realm = "worldcup-madness")) { username =>
 		            path("groups") {
 		              get {
 		                complete {
