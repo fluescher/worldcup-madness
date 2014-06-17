@@ -50,6 +50,7 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
       respondWithHeader(`Access-Control-Allow-Origin`(AllOrigins)) {
         respondWithHeader(`Access-Control-Allow-Credentials`(true)) {
           respondWithHeader(RawHeader("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT")) {
+            respondWithHeader(RawHeader("Access-Control-Allow-Headers", "Authorization")) {
         path("register") {
           post {
             complete(s"You registered")
@@ -94,7 +95,7 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
 	      	complete { "" }
 	      }
         }
-        }
+        }}
       }
     }
 
