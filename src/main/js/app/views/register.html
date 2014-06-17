@@ -12,9 +12,9 @@
         </div>
     </div>
     <div class="form-group" ng-class="{'has-error':hasError()}">
-        <label for="inputNickName3" class="col-sm-2 control-label">Nickname</label>
+        <label for="inputNickName3" class="col-sm-2 control-label">Username</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputNickName3" placeholder="Nick" ng-model="register.name">
+            <input type="text" class="form-control" id="inputNickName3" placeholder="Username" ng-model="register.name">
         </div>
     </div>
     <div class="form-group" ng-class="{'has-error':hasError()}">
@@ -26,23 +26,13 @@
     <div class="form-group" ng-class="{'has-error':hasError()}">
         <label for="inputSurname3" class="col-sm-2 control-label">Surname</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputSurname3" placeholder="Surname" ng-model="register.surname">
+            <input type="text" class="form-control" id="inputSurname3" placeholder="Surname" ng-model="register.surname">
             <span class="help-block has-error" ng-show="hasError()">{{error}}</span>
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" ng-model="rememberMe"> Remember me
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default" ng-click="register.submitRegister(register)" >Register</button>
-            <button type="submit" class="btn btn-default" ng-click="register.submitRegisterWithLogin(register)" >Register and Login</button>
+            <button type="submit" class="btn btn-primary" ng-click="register.submitRegister(register)" >Register</button>
         </div>
     </div>
 </form>
