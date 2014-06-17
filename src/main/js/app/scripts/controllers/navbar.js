@@ -6,11 +6,16 @@ worldcup.controller('NavbarCtrl', function ($scope, $location, Auth) {
         return page === currentRoute ? 'active' : '';
     };
 
-    $scope.isLoggedIn = function() {
+    $scope.isLoggedIn = function () {
         return Auth.isLoggedIn();
     };
 
-    $scope.logout = function() {
+    $scope.logout = function () {
         Auth.logout();
     };
+
+    $scope.getUser = function () {
+        return Auth.getUser();
+    };
+
 });

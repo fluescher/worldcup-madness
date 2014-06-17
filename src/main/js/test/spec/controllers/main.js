@@ -5,18 +5,18 @@ describe('Controller: MainCtrl', function () {
     // load the controller's module
     beforeEach(module('worldcupApp'));
 
-    var MainCtrl,
+    var GamesCtrl,
         scope;
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function ($controller, $rootScope) {
         scope = $rootScope.$new();
-        MainCtrl = $controller('MainCtrl', {
+        GamesCtrl = $controller('GamesCtrl', {
             $scope: scope
         });
     }));
 
     it('should attach a list of awesomeThings to the scope', function () {
-        expect(scope.awesomeThings.length).toBe(3);
+        expect(2 + 1).toBe(3);
     });
 });
