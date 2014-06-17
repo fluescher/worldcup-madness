@@ -7,15 +7,15 @@
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
-            <th>rank</th>
-            <th>player</th>
-            <th>points</th>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>Points</th>
             </thead>
             <tbody>
-            <tr ng-repeat="row in rows" ng-click="show(row)">
-                <td>{{row.rank}}</td>
-                <td>{{row.player}}</td>
-                <td>{{row.points}}</td>
+            <tr ng-repeat="player in players" ng-click="show(player)">
+                <td>{{player.rank}}</td>
+                <td>{{player.name}}</td>
+                <td>{{player.points}}</td>
             </tr>
             </tbody>
         </table>
