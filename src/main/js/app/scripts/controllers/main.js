@@ -1,12 +1,11 @@
 'use strict';
 
-worldcup.controller('MainCtrl', function ($scope, user) {
+worldcup.controller('MainCtrl', function ($scope, $http, Auth) {
     $scope.awesomeThings = [
         'HTML5 Boilerplate',
         'AngularJS',
         'Karma'
     ];
-    user.get(function(data){
-        console.log(data);
-    });
+
+    console.log('isUserLoggedIn:' + Auth.isLoggedIn());
 });

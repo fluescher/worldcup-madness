@@ -13,12 +13,12 @@ worldcup.config(function ($routeProvider) {
             templateUrl: 'views/main.html',
             controller: 'MainCtrl'
         })
-        .when('/login/',
+        .when('/login',
         {
             templateUrl: 'views/login.html',
             controller: 'LoginCtrl'
         })
-        .when('/register/', {
+        .when('/register', {
             templateUrl: 'views/register.html',
             controller: 'RegisterCtrl'
         })

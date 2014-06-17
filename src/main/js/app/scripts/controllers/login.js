@@ -3,11 +3,19 @@
  */
 'use strict';
 
-worldcup.controller('LoginCtrl', function ($scope) {
-    $scope.login = {};
-    $scope.login.name = '';
-    $scope.login.password = '';
-    $scope.login.rememberMe = false;
-    $scope.login.submitLoginForm = function () {
+worldcup.controller('LoginCtrl', function ($scope, Auth) {
+    $scope.credentials = {
+        user: '',
+        password: '',
+        rememberMe: false
     };
+
+    $scope.submit = function (credentials) {
+        Auth.login(credentials, function (user) {
+            console.log(user);
+        }, function (error) {
+            console.log(error);
+        });
+    };
+
 });
