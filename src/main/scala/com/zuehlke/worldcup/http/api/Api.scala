@@ -70,7 +70,7 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system:
 		              get {
 		                complete {
 		                  import GameManager._
-		                  (gameManager ? GetGroups).mapTo[GetGroupsResult]
+		                  (gameManager ? GetGroups).mapTo[GetGroupsResult].map(_.groups)
 		                }
 		              }
 		            } ~
@@ -88,7 +88,7 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system:
 		                get {
 		                  complete {
 		                    import GameManager._
-		                    (gameManager ? GetGames).mapTo[GetGamesResult]
+		                    (gameManager ? GetGames).mapTo[GetGamesResult].map(_.games)
 		                  }
 		                }
 		              } ~

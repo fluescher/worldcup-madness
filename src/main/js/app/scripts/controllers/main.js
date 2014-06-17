@@ -8,4 +8,5 @@ worldcup.controller('MainCtrl', function ($scope, $http, Auth) {
     ];
 
     console.log('isUserLoggedIn:' + Auth.isLoggedIn());
+
 });
