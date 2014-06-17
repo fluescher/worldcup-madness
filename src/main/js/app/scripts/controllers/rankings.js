@@ -3,15 +3,17 @@
  */
 'use strict';
 
-worldcup.controller('RankingsCtrl', function ($scope) {
-    $scope.rows = [
-        {
-            rank: '1', player: 'mäthu', points: 100
-        },
-        {
-            rank: '2', player: 'päscu', points: 99
+worldcup.controller('RankingsCtrl', function ($rootScope, $scope, Auth, Ranking) {
+    $scope.players = null;
+    Ranking.get(function(data) {
+        console.log(data);
+        $scope.players = data;
+    });
+    $scope.yourRank = function() {
+        for (var i = 0; i < $scope.players.length; i++) {
+            if($scope.players.name === Auth.getUser().name) {
+                return $scope.players;
+            }
         }
-    ];
-    $scope.yourRank = 2;
-    $scope.gridOptions = {data: 'rows'};
+    };
 });
