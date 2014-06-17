@@ -33,16 +33,6 @@ class Api(val gameManager: ActorRef)(implicit system: ActorSystem) extends Route
 
   implicit val defaultTimeout = Timeout(5.seconds)
 
-  object WorldcupJsonFormat extends DefaultJsonProtocol {
-    implicit val teamFormat = jsonFormat3(Team.apply)
-    implicit val userFormat = jsonFormat2(User.apply)
-    implicit val gameResultFormat = jsonFormat2(GameResult)
-    implicit val gameFormat = jsonFormat4(Game.apply)
-    implicit val groupFormat = jsonFormat2(Group.apply)
-
-    implicit val getGroupsResultFormat = jsonFormat1(GetGroupsResult)
-    implicit val getGamesResultFormat = jsonFormat1(GetGamesResult)
-  }
   import WorldcupJsonFormat._
 
   override val route =
