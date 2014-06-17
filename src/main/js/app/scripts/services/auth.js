@@ -1,10 +1,14 @@
 'use strict';
 
-worldcup.factory('Auth', function ($rootScope, $q, BasicAuth, User) {
+worldcup.factory('Auth', function ($rootScope, $q, $location, BasicAuth, User) {
     var Auth = {};
 
     var user = null;
     var errorCallback = null;
+
+    User.get(function (data) {
+        user = data;
+    });
 
     Auth.login = function (credentials, success, error) {
         errorCallback = error;
@@ -17,17 +21,25 @@ worldcup.factory('Auth', function ($rootScope, $q, BasicAuth, User) {
         });
     };
 
-    Auth.isLoggedIn = function(){
+    Auth.logout = function () {
+        user = null;
+        BasicAuth.clearCredentials();
+        $location.path('/login');
+    };
+
+    Auth.isLoggedIn = function () {
         return user !== null;
     };
 
-    Auth.getUser = function() {
+    Auth.getUser = function () {
         return user;
     };
 
     $rootScope.$on('Auth:loginFailed', function () {
         user = null;
-        errorCallback('Username or password wrong.');
+        if (angular.isFunction(errorCallback)) {
+            errorCallback('Username or password wrong.');
+        }
     });
 
     return Auth;

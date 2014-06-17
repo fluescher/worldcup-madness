@@ -4,15 +4,14 @@ var worldcup = angular.module('worldcupApp', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute',
-    'ngGrid'
+    'ngRoute'
 ]);
 
 worldcup.config(function ($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'views/main.html',
-            controller: 'MainCtrl'
+            templateUrl: 'views/games.html',
+            controller: 'GamesCtrl'
         })
         .when('/login',
         {

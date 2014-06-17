@@ -1,0 +1,22 @@
+<h1>Welcome to Worldcup Madnees</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <th>startTime</th>
+        <th>Team 1</th>
+        <th>Team 2</th>
+        <th>Bet</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="game in games">
+            <td>{{game.startTime}}</td>
+            <td>{{game.team1.name}}</td>
+            <td>{{game.team2.name}}</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+

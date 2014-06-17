@@ -7,7 +7,7 @@ worldcup.controller('LoginCtrl', function ($scope, $location, Auth) {
     $scope.credentials = {
         user: '',
         password: '',
-        rememberMe: false
+        rememberMe: true
     };
 
     $scope.error = '';
