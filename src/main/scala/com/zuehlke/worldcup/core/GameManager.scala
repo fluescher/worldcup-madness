@@ -5,20 +5,30 @@ import akka.actor.Props
 import com.zuehlke.worldcup.core.model.Game
 import com.zuehlke.worldcup.core.model.Groups
 import com.zuehlke.worldcup.core.model.Group
+import com.zuehlke.worldcup.core.model.Team
+import akka.actor.ActorLogging
 
-class GameManager extends Actor {
+
+class GameManager extends Actor with ActorLogging {
   import GameManager._
+  import context._
+  
+  implicit val system = context.system
+  
+  var games: List[Game] = Nil
   
   override def receive = {
-    case GetGames => sender ! GetGamesResult(Groups.groupA.games ++
-    										 Groups.groupB.games ++
-    										 Groups.groupC.games ++ 
-    										 Groups.groupD.games) 
+    case GetGames => sender ! GetGamesResult(games)
+    
     case GetGroups => sender ! GetGroupsResult(List(Groups.groupA,
     												Groups.groupB,
     												Groups.groupC,
-    												Groups.groupD))		
+    												Groups.groupD))
+    case GamesUpdated(gs) =>
+      log.info(s"Got ${gs} games")
+      games = gs
   }
+  
 }
 object GameManager {
   sealed trait GameManagerMessages
@@ -26,6 +36,7 @@ object GameManager {
   case class GetGamesResult(games: List[Game]) extends GameManagerMessages
   case object GetGroups extends GameManagerMessages
   case class GetGroupsResult(groups: List[Group]) extends GameManagerMessages
+  case class GamesUpdated(teams: List[Game]) extends GameManagerMessages
   
-  def props() = Props[GameManager](new GameManager())
+  def props() = Props(new GameManager())
 }
