@@ -1,0 +1,40 @@
+.bs-callout {
+    padding: 20px;
+    border-left: 3px solid #eee;
+}
+
+.bs-callout-info:nth-child(odd) {
+    border-color: #eee;
+    background-color: #f7f7f9;
+}
+
+.bs-callout-info {
+    background-color: #f4f8fa;
+    border-color: #5bc0de;
+}
+
+.teamname {
+    text-transform: uppercase;
+}
+
+.score {
+    width: 50px;
+    display: inline;
+}
+
+.flagcontainer {
+    line-height: 56px;
+}
+
+.flag {
+    max-width: 50px;
+}
+
+.date {
+    height: 28px;
+    line-height: 28px;
+}
+
+.welcome {
+    margin-bottom: 30px;
+}
