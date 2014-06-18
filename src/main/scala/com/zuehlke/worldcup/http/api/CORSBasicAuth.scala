@@ -12,7 +12,8 @@ import spray.http.AllOrigins
 import spray.http.HttpChallenge
 import scala.concurrent.ExecutionContext
 
-class CORSBasicAuth[U](val userPassAuthenticator: UserPassAuthenticator[U], val realm: String)(override implicit val executionContext: ExecutionContext)
+class CORSBasicAuth[U](val userPassAuthenticator: UserPassAuthenticator[U], val realm: String)
+					  (override implicit val executionContext: ExecutionContext)
   					 extends HttpAuthenticator[U]{
     def authenticate(credentials: Option[HttpCredentials], ctx: RequestContext) = {
 	  userPassAuthenticator {

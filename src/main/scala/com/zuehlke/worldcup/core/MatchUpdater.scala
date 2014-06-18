@@ -19,12 +19,12 @@ class MatchUpdater(val gameManager: ActorRef) extends Actor with ActorLogging {
   import GameManager._
   import MatchUpdater._
   import context._
-  implicit val system = context.system
+  val system = context.system
   
   val tick =
     context.system.scheduler.schedule(0.seconds, 10.minutes, self, UpdateGames)
   
-  def receive = {
+  override def receive = {
     case UpdateGames => 
       log.info("Updating games")
       queryAndMap().onSuccess({case games => gameManager ! GamesUpdated(games)})

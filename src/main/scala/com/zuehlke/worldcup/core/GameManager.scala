@@ -13,7 +13,7 @@ class GameManager extends Actor with ActorLogging {
   
   implicit val system = context.system
   
-  var games: List[Game] = Nil
+  private var games: List[Game] = Nil
   
   override def receive = {
     case GetGames => sender ! GetGamesResult(games)
