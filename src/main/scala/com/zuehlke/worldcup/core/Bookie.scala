@@ -25,7 +25,9 @@ class Bookie extends Processor with ActorLogging {
 	  sender ! GetBetsResult(tipps.filter(_.user.name == username))
   }
   
-  private def placeBet(tipp: Tipp) = tipps = tipp :: tipps
+  private def placeBet(newTipp: Tipp) = 
+    tipps = newTipp :: tipps.filterNot(tipp => 
+      tipp.gameId == newTipp.gameId && tipp.user.name == newTipp.user.name )
     
 }
 
