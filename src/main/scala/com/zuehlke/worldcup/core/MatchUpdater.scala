@@ -50,8 +50,8 @@ class MatchUpdater(val gameManager: ActorRef) extends Actor with ActorLogging {
 	  }))
     })
   
-  def mapGameToTeams(game: FootballGame, teams: List[Team]): Game = 
-    Game(game.play_at, findTeam(game.team1_key, teams), findTeam(game.team2_key, teams), getResult(game))
+  def mapGameToTeams(game: (Int, FootballGame), teams: List[Team]): Game = 
+    Game(game._2.play_at, game._1, findTeam(game._2.team1_key, teams), findTeam(game._2.team2_key, teams), getResult(game._2))
     
   def getResult(game: FootballGame): Option[GameResult] = (game.score1, game.score2) match {
     case (Some(score1), Some(score2)) => Some(GameResult(score1, score2))
@@ -60,9 +60,9 @@ class MatchUpdater(val gameManager: ActorRef) extends Actor with ActorLogging {
     
   def findTeam(key: String, teams: List[Team]) = teams.find(_.abbreviation == key).getOrElse(null)
     
-  def queryGames(): Future[List[FootballGame]] = all((1 to 20).map(i => {
+  def queryGames(): Future[List[(Int, FootballGame)]] = all((1 to 20).map(i => {
     roundPipeline(Get(s"http://footballdb.herokuapp.com/api/v1/event/world.2014/round/$i"))
-    			  .map(_.games)
+    			  .map(_.games).map(_.map((i, _)))
   }).toList).map(_.flatten)
     
   def queryTeams(): Future[List[Team]] = 
@@ -71,7 +71,7 @@ class MatchUpdater(val gameManager: ActorRef) extends Actor with ActorLogging {
     	.map(_.map(toWorldcupTeam(_)))
     	
   def toWorldcupTeam(footballTeam: FootballTeam): Team =
-    Team(footballTeam.title, "", footballTeam.key)
+    Team(footballTeam.title, footballTeam.key)
 
   def all[T](fs: List[Future[T]]): Future[List[T]] = 
      fs.foldRight(Future(Nil: List[T]))((f, fs2) =>
