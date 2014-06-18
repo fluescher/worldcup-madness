@@ -1,22 +1,36 @@
-<h1>Welcome to Worldcup Madness</h1>
+<h1 class="welcome">Welcome to Worldcup Madness</h1>
 
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-        <th>startTime</th>
-        <th>Team 1</th>
-        <th>Team 2</th>
-        <th>Bet</th>
-        </thead>
-        <tbody>
-        <tr ng-repeat="game in games">
-            <td>{{game.startTime}}</td>
-            <td>{{game.team1.name}}</td>
-            <td>{{game.team2.name}}</td>
-            <td></td>
-        </tr>
-        </tbody>
-    </table>
+<div class="bs-callout bs-callout-info" ng-repeat="game in games">
+    <div class="row text-center teamname">
+        <div class="col-xs-2"><h3>{{game.team1.abbreviation}}</h3></div>
+        <div class="col-xs-2 flagcontainer"><img src="../images/flags/{{game.team1.name}}.png" class="flag"></img></div>
+        <div class="col-xs-4"><h3>{{game.result.goalsTeam1}} : {{game.result.goalsTeam2}}</h3></div>
+        <div class="col-xs-2 flagcontainer"><img src="../images/flags/{{game.team2.name}}.png" class="flag"></img></div>
+        <div class="col-xs-2"><h3>{{game.team2.abbreviation}}</h3></div>
+    </div>
+    <div class="row text-center">
+        <div class="col-xs-12 date">{{game.startTime}}</div>
+    </div>
+    <div class="row text-center">
+        <div class="col-xs-12">
+            <input type="number" class="form-control score"> : <input type="number" class="form-control score">
+        </div>
+    </div>
+</div>
+
+<div class="bs-callout bs-callout-info">
+    <div class="row text-center">
+        <div class="col-xs-4">BRA</div>
+        <div class="col-xs-4">3 : 1</div>
+        <div class="col-xs-4">MEX</div>
+    </div>
+    <div class="row text-center">
+        <div class="col-xs-12">12.6 - 22:01</div>
+    </div>
+    <div class="row text-center">
+        <div class="col-xs-4">Bet 3 : 2</div>
+        <div class="col-xs-4 col-xs-offset-4">4 Points</div>
+    </div>
 </div>
 
 
