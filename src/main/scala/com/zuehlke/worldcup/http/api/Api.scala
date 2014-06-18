@@ -14,11 +14,9 @@ import spray.routing.authentication.BasicAuth
 import com.zuehlke.worldcup.core.GameManager
 import com.zuehlke.worldcup.core.model.User
 import com.zuehlke.worldcup.core.model.Game
-import com.zuehlke.worldcup.core.model.Group
 import com.zuehlke.worldcup.core.model.Team
 import com.zuehlke.worldcup.core.model.GameResult
 import com.zuehlke.worldcup.core.GameManager.GetGamesResult
-import com.zuehlke.worldcup.core.GameManager.GetGroupsResult
 import spray.http.HttpHeaders._
 import spray.http.AllOrigins
 import spray.http.HttpHeader
@@ -70,14 +68,6 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system:
 		            }
 		        } ~
 		          authenticate(new CORSBasicAuth(staticUserName _, realm = "worldcup-madness")) { user =>
-		            path("groups") {
-		              get {
-		                complete {
-		                  import GameManager._
-		                  (gameManager ? GetGroups).mapTo[GetGroupsResult].map(_.groups)
-		                }
-		              }
-		            } ~
 		              path("tipps") {
 		                get {
 		                  complete("tipps")

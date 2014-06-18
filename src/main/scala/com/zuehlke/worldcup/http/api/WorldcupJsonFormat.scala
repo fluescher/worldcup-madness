@@ -7,7 +7,6 @@ import com.zuehlke.worldcup.core.model.Team
 import com.zuehlke.worldcup.core.model.User
 import com.zuehlke.worldcup.core.model.GameResult
 import com.zuehlke.worldcup.core.model.Game
-import com.zuehlke.worldcup.core.model.Group
 import com.zuehlke.worldcup.core.GameManager._
 import com.zuehlke.worldcup.core.model.Ranking
 
@@ -16,6 +15,5 @@ object WorldcupJsonFormat {
   implicit val userFormat = jsonFormat5(User.apply)
   implicit val gameResultFormat = jsonFormat2(GameResult)
   implicit val gameFormat = jsonFormat4(Game.apply)
-  implicit val groupFormat = jsonFormat2(Group.apply)
   implicit val rankingFormat = jsonFormat2(Ranking.apply)
 }

@@ -3,13 +3,13 @@
  */
 'use strict';
 
-worldcup.controller('RankingsCtrl', function ($rootScope, $scope, Auth, Ranking) {
+worldcup.controller('RankingsCtrl', function ($scope, Auth, Ranking) {
     $scope.players = Ranking.query();
 
-    $scope.yourRank = function() {
-        for (var i = 0; i < $scope.players.length; i++) {
-            if($scope.players[i].username === Auth.getUser().name) {
-                return $scope.players[i].points;
+    $scope.yourRank = function(players) {
+        for (var i = 0; i < players.length; i++) {
+            if(players[i].username === Auth.getUser().name) {
+                return players[i].points;
             }
         }
     };
