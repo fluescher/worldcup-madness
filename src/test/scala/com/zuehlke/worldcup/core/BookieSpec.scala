@@ -14,9 +14,6 @@ class BookieSpec extends TestKit(ActorSystem("worldcup-madness")) with WordSpecL
     "reply with the payload when a persisted message was sent" in {
       val bookie = system.actorOf(Bookie.props)
       
-      bookie ! Persistent("blubber")
-      
-      expectMsg("blubber")
     }
   }
 }

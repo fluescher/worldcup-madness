@@ -13,7 +13,7 @@ class GameManagerSpec extends TestKit(ActorSystem("worldcup-madness")) with Word
     "return a list of games" in {
       val gameManager = system.actorOf(GameManager.props())
 
-      gameManager ! GamesUpdated(List(Game("", null, null, None)))
+      gameManager ! GamesUpdated(List(Game("", 1, null, null, None)))
       gameManager ! GetGames
      
       val expectedMessage = expectMsgType[GetGamesResult]
