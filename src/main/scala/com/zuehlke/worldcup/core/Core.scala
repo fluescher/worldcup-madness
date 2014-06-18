@@ -7,21 +7,19 @@ import akka.actor.ActorRef
 trait Core {
   implicit def system: ActorSystem
   
+  val bookie: ActorRef
   val gameManager: ActorRef
   val userManager: ActorRef
 }
 
 trait BootedCore extends Core {
-  implicit val system = ActorSystem("worldcup-madness")
+  val system = ActorSystem("worldcup-madness")
 
-  val betAccountant = system.actorOf(Bookie.props, name = "betAccountant")
+  override val bookie = system.actorOf(Bookie.props, name = "betAccountant")
   override val gameManager = system.actorOf(GameManager.props, name ="gameManager")
   override val userManager = system.actorOf(UserManager.props, name ="userManager")
 
   val matchUpdater = system.actorOf(MatchUpdater.props(gameManager), name ="matchUpdater")
-  
-  betAccountant ! Persistent("foo") // will be journaled
-  betAccountant ! "bar"
   
   scala.sys.addShutdownHook(shutDownSystem())
 

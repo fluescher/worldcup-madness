@@ -35,8 +35,11 @@ import com.zuehlke.worldcup.core.RankingCalculator
 import com.zuehlke.worldcup.core.RankingCalculator
 import com.zuehlke.worldcup.core.RankingCalculator
 import com.zuehlke.worldcup.core.model.Ranking
+import com.zuehlke.worldcup.core.model.Tipp
+import com.zuehlke.worldcup.core.Bookie
+import spray.routing.PathMatcher
 
-class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system: ActorSystem) extends RouteProvider with Directives {
+class Api(val gameManager: ActorRef, val userManager: ActorRef, val bookie: ActorRef)(implicit system: ActorSystem) extends RouteProvider with Directives {
 
   import spray.json._
   import DefaultJsonProtocol._
@@ -60,18 +63,35 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef)(implicit system:
 			            complete {
 			              import UserManager._
 			              (userManager ? Persistent(RegisterUser(user))).map({
-			                case UserAlreadyExists => StatusCodes.BadRequest
-			                case UserRegistered => StatusCodes.OK 
+			                case UserAlreadyExists 	=> StatusCodes.BadRequest
+			                case UserRegistered 	=> StatusCodes.OK 
 			              })
 			              }
 			            }
 		            }
 		        } ~
 		          authenticate(new CORSBasicAuth(staticUserName _, realm = "worldcup-madness")) { user =>
-		              path("tipps") {
+		              path("tipps" ~ (Slash ~ regex2PathMatcher("\\w+".r)).?) { pathUser =>
 		                get {
-		                  complete("tipps")
-		                }
+		                  complete {
+		                    import Bookie._
+		                    pathUser match {
+		                      case None 		=> (bookie ? GetAllBets).mapTo[GetAllBetsResult].map(_.bets)
+		                      case Some(name)	=> (bookie ? GetBets(name)).mapTo[GetBetsResult].map(_.bets)
+		                    }
+		                  }
+		                } ~
+		                  post {
+		                    entity(as[Tipp]) { tipp => 
+		                      complete {
+		                        import Bookie._
+		                        (bookie ? Persistent(PlaceBet(tipp.updateUser(user)))).map({
+		                          case BetPlaced  => StatusCodes.OK 
+		                          case BetInvalid => StatusCodes.BadRequest 
+		                        })
+		                      }
+		                    }
+		                  }
 		              } ~
 		              path("ranking") {
 		                get {
