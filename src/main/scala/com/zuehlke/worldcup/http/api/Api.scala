@@ -77,7 +77,7 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef, val bookie: Acto
 		                    import Bookie._
 		                    pathUser match {
 		                      case None 		=> (bookie ? GetAllBets).mapTo[GetAllBetsResult].map(_.bets).map(a => a.mapValues(_.map(_.convert)))
-		                      case Some(name)	=> (bookie ? GetAllBets).mapTo[GetAllBetsResult].map(_.bets).map(a => a.mapValues(_.map(_.convert)))
+		                      case Some(name)	=> (bookie ? GetBets(name)).mapTo[GetBetsResult].map(_.bets).map(_.map(_.convert))
 		                    }
 		                  }
 		                } ~
