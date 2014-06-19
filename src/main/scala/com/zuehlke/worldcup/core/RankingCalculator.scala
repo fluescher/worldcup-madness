@@ -9,9 +9,9 @@ import com.zuehlke.worldcup.core.model.TippResult
 
 class RankingCalculator {
   
-  def calculateTippResults(tipps: List[Tipp], games: List[Game]): List[Tipp] =
+  def calculateTippResults(tipps: List[Tipp], games: List[Game]): List[Tipp] = 
     tipps.map(tipp => games.find(_.gameId == tipp.gameId) match {
-      case Some(game) 	if game.result.isDefined => Tipp(tipp.gameId, tipp.user, tipp.goalsTeam1 , tipp.goalsTeam2, 
+      case Some(game) 	if !game.result.isEmpty => Tipp(tipp.gameId, tipp.user, tipp.goalsTeam1 , tipp.goalsTeam2, 
     		  										     Some(TippResult(
     		  										          calculateWinningPoints(tipp, game),
     		  										          calculateGoalDifferencePoints(tipp, game),
@@ -22,7 +22,7 @@ class RankingCalculator {
   
   def calculateRanking(tipps: List[Tipp], games: List[Game]): List[Ranking] = 
     calculateTippResults(tipps, games).groupBy(_.user.name)
-    								  .mapValues(_.filter(_.tippResult == Some).map(_.tippResult.get.totalPoint).sum)
+    								  .mapValues(_.map(_.tippResult.get.totalPoint).sum)
     								  .map({case (username, points) => Ranking(username, points)}).toList
     
   def calculatePoints(tipp: Tipp, game: Game): Int =

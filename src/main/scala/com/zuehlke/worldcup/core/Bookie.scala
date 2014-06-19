@@ -14,29 +14,27 @@ import akka.util.Timeout
 import akka.actor.ActorSystem
 import org.joda.time.DateTime
 
-class Bookie(val gameManager: ActorRef)(implicit system: ActorSystem) extends Processor with ActorLogging {
+class Bookie(implicit system: ActorSystem) extends Processor with ActorLogging {
   
   implicit val executionContext = system.dispatcher
   implicit val defaultTimeout = Timeout(5.seconds)
   val calculator = new RankingCalculator()
   
   private var tipps: List[Tipp] = Nil
-  
+  private var games: List[Game] = Nil
   import Bookie._
   
   override def receive = {
 	case Persistent(PlaceBet(tipp, time), sequenceNr) =>
 	  val respondTo = sender
-	  import GameManager._
-	  (gameManager ? GetGames).mapTo[GetGamesResult].map(_.games ).map(games => {
 	    games.find(_.gameId == tipp.gameId) match {
 	      case None 									=> respondTo ! BetInvalid
 	      case Some(game) if !game.tippsAccepted(time)	=> respondTo ! BetInvalid
 	      case Some(game)								=> self ! UpdateBets(tipp, respondTo)
 	    }
-	  })
 
 	case UpdateBets(tipp, respondTo) => 
+	  log.info(s"Bet placed $tipp")
 	  placeBet(tipp)
 	  respondTo ! BetPlaced
 	  
@@ -48,8 +46,12 @@ class Bookie(val gameManager: ActorRef)(implicit system: ActorSystem) extends Pr
 	
 	case GetBets(username) =>
 	  sender ! GetBetsResult(tipps.filter(_.user.name == username))
+	
+	case UpdateGames(games) => 
+	  this.games = games
+	  tipps = calculator.calculateTippResults(tipps, this.games)
 	  
-	case CalculatePoints(games) =>
+	case CalculatePoints =>
 	  sender ! RankingResult(calculator.calculateRanking(tipps, games).sortBy(_.points))
   }
   
@@ -69,9 +71,10 @@ object Bookie {
   case class GetBets(user: String) extends BookieMessage
   case class GetBetsResult(bets: List[Tipp]) extends BookieMessage
   case class GetAllBetsResult(bets: Map[String, List[Tipp]]) extends BookieMessage
-  case class CalculatePoints(games: List[Game]) extends BookieMessage
+  case object CalculatePoints extends BookieMessage
   case class RankingResult(rankings: List[Ranking]) extends BookieMessage
+  case class UpdateGames(gs: List[Game]) extends BookieMessage
   
   def props(gameManager: ActorRef)(implicit system: ActorSystem): Props =
-    Props(new Bookie(gameManager))
+    Props(new Bookie)
 }
