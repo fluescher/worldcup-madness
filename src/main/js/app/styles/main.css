@@ -44,3 +44,8 @@ body {
 .welcome {
     margin-bottom: 30px;
 }
+
+.points{
+    color: gold;
+    line-height: 39px;
+}

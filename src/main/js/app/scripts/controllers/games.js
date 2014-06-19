@@ -13,10 +13,28 @@ worldcup.controller('GamesCtrl', function ($scope, Games, Tipps, Auth) {
                         }
                     }
                 });
+
+                var index = getIndexOfFirstNotAcceptedGame(games);
+
+                if (index > 2) {
+                    index = index - 2;
+                }
+
+                var filteredGames = games.splice(index, games.length);
+
                 $scope.games = games;
             });
         });
     });
+
+
+    function getIndexOfFirstNotAcceptedGame(games){
+        for(var i = 0; i < games.length; i++) {
+            if (games[i].tippsAccepted) {
+                return i;
+            }
+        }
+    }
 
     $scope.saveTip = function(game) {
         if (!angular.isNumber(game.tip.goalsTeam1) || game.tip.goalsTeam1 < 0){

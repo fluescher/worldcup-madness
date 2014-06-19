@@ -12,9 +12,14 @@
         <div class="col-xs-12 date">{{game.startTime}}</div>
     </div>
     <div class="row text-center">
-        <div class="col-xs-12">
+        <div class="col-xs-12" ng-show="game.tippsAccepted">
             <input type="number" class="form-control score" ng-model="game.tip.goalsTeam1" ng-change="saveTip(game)"><span>:</span>
             <input type="number" class="form-control score" ng-model="game.tip.goalsTeam2" ng-change="saveTip(game)">
+        </div>
+        <div class="col-xs-12" ng-show="!game.tippsAccepted && game.tip">
+            <div class="col-xs-4"><h4>Bet {{game.tip.goalsTeam1}} : {{game.tip.goalsTeam2}}</h4></div>
+            <div class="col-xs-4"><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></div>
+            <div class="col-xs-4"><h4>4 Points</h4></div>
         </div>
     </div>
 </div>
