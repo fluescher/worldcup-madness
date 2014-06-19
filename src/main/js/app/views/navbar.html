@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation" ng-controller="NavbarCtrl">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="NavbarCtrl">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -19,8 +19,7 @@
             </ul>
             <ul class="nav navbar-nav" ng-show="isLoggedIn()">
                 <li ng-class="navClass('games')"><a href="#">Games</a></li>
-                <li ng-class="navClass('ranking')"><a href="#/ranking">Ranking</a></li>
-                <li ng-class="navClass('groups')"><a href="#/groups">Groups</a></li>
+                <li ng-class="navClass('ranking')"><a href="#/rankings">Ranking</a></li>
                 <li ng-class="navClass('rule')"><a href="#/rules">Rules</a></li>
             </ul>
             <form class="navbar-form navbar-right" role="search" ng-show="isLoggedIn()">

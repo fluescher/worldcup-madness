@@ -18,7 +18,9 @@ worldcup.controller('GamesCtrl', function ($scope, $rootScope, Games, $http, Tip
     };
 
     $rootScope.$on('Auth:login', function () {
-        console.log(Tipps.get({userId: 'test'}));
+        Tipps.get({userId: 'test'}, function(data){
+            console.log(data);
+        });
         console.log(Auth.getUser());
 
         $http.get('http://localhost:8080/api/tipps/' + Auth.getUser().name).success(function (data) {

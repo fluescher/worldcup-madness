@@ -1,3 +1,7 @@
+body {
+    padding-top: 70px;
+}
+
 .bs-callout {
     padding: 20px;
     border-left: 3px solid #eee;
