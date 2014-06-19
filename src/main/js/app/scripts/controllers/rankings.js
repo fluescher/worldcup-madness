@@ -3,7 +3,7 @@
  */
 'use strict';
 
-worldcup.controller('RankingsCtrl', function ($scope, Auth, Ranking) {
+worldcup.controller('RankingsCtrl', function ($scope, Auth, Ranking, $location) {
     $scope.rankings = Ranking.query(function (rankings) {
         var points = null;
         var rank = 0;
@@ -14,12 +14,10 @@ worldcup.controller('RankingsCtrl', function ($scope, Auth, Ranking) {
             ranking.rank = rank;
             points = ranking.points;
         });
-        console.log(rankings);
         $scope.rankings = rankings;
     });
 
     $scope.yourRank = function () {
-        console.log($scope.rankings);
         for (var i = 0; i < $scope.rankings.length; i++) {
             if ($scope.rankings[i].username === Auth.getUser().name) {
                 return ++i;
@@ -27,7 +25,7 @@ worldcup.controller('RankingsCtrl', function ($scope, Auth, Ranking) {
         }
     };
 
-    $scope.show = function (player) {
-        console.log(player.username);
+    $scope.profileUrl = function (username) {
+        return '/user/'+username;
     };
 });

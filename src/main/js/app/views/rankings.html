@@ -14,9 +14,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="ranking in rankings" ng-click="show(player)">
+            <tr ng-repeat="ranking in rankings">
                 <td>{{ranking.rank}}</td>
-                <td>{{ranking.username}}</td>
+                <td><a href="#{{profileUrl(ranking.username)}}">{{ranking.username}}</a></td>
                 <td>{{ranking.points}}</td>
             </tr>
             </tbody>

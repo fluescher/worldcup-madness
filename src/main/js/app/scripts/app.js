@@ -26,7 +26,7 @@ worldcup.config(function ($routeProvider) {
             templateUrl: 'views/register.html',
             controller: 'RegisterCtrl'
         })
-        .when('/user', {
+        .when('/user/:user', {
             templateUrl: 'views/user.html',
             controller: 'UserCtrl'
         })
