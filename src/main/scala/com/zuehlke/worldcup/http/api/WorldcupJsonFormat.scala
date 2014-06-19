@@ -1,15 +1,26 @@
 package com.zuehlke.worldcup.http.api
 
-import spray.json._
-import DefaultJsonProtocol._
-import spray.httpx.SprayJsonSupport._
-import com.zuehlke.worldcup.core.model.Team
-import com.zuehlke.worldcup.core.model.User
-import com.zuehlke.worldcup.core.model.GameResult
 import com.zuehlke.worldcup.core.model.Game
-import com.zuehlke.worldcup.core.GameManager._
+import com.zuehlke.worldcup.core.model.GameResult
 import com.zuehlke.worldcup.core.model.Ranking
-import com.zuehlke.worldcup.core.model.Tipp
+import com.zuehlke.worldcup.core.model.Team
+import com.zuehlke.worldcup.core.model.TippResult
+import com.zuehlke.worldcup.core.model.User
+
+import spray.json.DefaultJsonProtocol.IntJsonFormat
+import spray.json.DefaultJsonProtocol.StringJsonFormat
+import spray.json.DefaultJsonProtocol.jsonFormat
+import spray.json.DefaultJsonProtocol.jsonFormat2
+import spray.json.DefaultJsonProtocol.jsonFormat3
+import spray.json.DefaultJsonProtocol.jsonFormat4
+import spray.json.DeserializationException
+import spray.json.JsBoolean
+import spray.json.JsNull
+import spray.json.JsNumber
+import spray.json.JsObject
+import spray.json.JsString
+import spray.json.JsValue
+import spray.json.RootJsonFormat
 
 object WorldcupJsonFormat {
   implicit val teamFormat = jsonFormat(Team, "name", "abbrevation")
@@ -47,5 +58,6 @@ object WorldcupJsonFormat {
   implicit val rankingFormat = jsonFormat2(Ranking.apply)
   implicit val tippRequestFormat = jsonFormat3(TippRequest.apply)
   implicit val tippResponseFormat = jsonFormat3(TippResponse.apply)
+  implicit val tippResultFormat = jsonFormat4(TippResult.apply)
 
 }

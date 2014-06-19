@@ -5,6 +5,7 @@ import org.scalatest.Matchers
 import com.zuehlke.worldcup.core.model.Tipp
 import com.zuehlke.worldcup.core.model.Game
 import com.zuehlke.worldcup.core.model.GameResult
+import com.zuehlke.worldcup.core.model.TippResult
 
 class RankingCalculatorSpec extends WordSpecLike with Matchers {
   "A ranking calculator" should {
@@ -72,6 +73,6 @@ class RankingCalculatorSpec extends WordSpecLike with Matchers {
       points should be(4)
     }
   }
-  def getTippWithResult(teamA: Int, teamB: Int) = Tipp("", null, teamA, teamB)
+  def getTippWithResult(teamA: Int, teamB: Int) = Tipp("", null, teamA, teamB, Some(TippResult(3, 0, 0, 3)))
   def getGameWithResult(teamA: Int, teamB: Int) = Game(null, 0, null, null, Some(GameResult(teamA, teamB)))
 }

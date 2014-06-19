@@ -5,14 +5,25 @@ import com.zuehlke.worldcup.core.model.Ranking
 import scala.collection.immutable.Set
 import com.zuehlke.worldcup.core.model.Game
 import com.zuehlke.worldcup.core.model.Tipp
+import com.zuehlke.worldcup.core.model.TippResult
 
 class RankingCalculator {
   
-  def calculateRanking(tipps: List[Tipp], games: List[Game]): List[Ranking] = 
+  def calculateTippResults(tipps: List[Tipp], games: List[Game]): List[Tipp] =
     tipps.map(tipp => games.find(_.gameId == tipp.gameId) match {
-      case None 		=> (tipp, 0)
-      case Some(game) 	if game.result.isDefined => (tipp, calculatePoints(tipp, game))
-    }).groupBy(_._1).values.flatten.map(toRanking(_)).toList
+      case Some(game) 	if game.result.isDefined => Tipp(tipp.gameId, tipp.user, tipp.goalsTeam1 , tipp.goalsTeam2, 
+    		  										     Some(TippResult(
+    		  										          calculateWinningPoints(tipp, game),
+    		  										          calculateGoalDifferencePoints(tipp, game),
+    		  										          calculateExactGoalMatchPoints(tipp, game),
+    		  										          calculatePoints(tipp, game))))
+     case _ 		=> tipp
+    })
+  
+  def calculateRanking(tipps: List[Tipp], games: List[Game]): List[Ranking] = 
+    calculateTippResults(tipps, games).groupBy(_.user.name)
+    								  .mapValues(_.filter(_.tippResult == Some).map(_.tippResult.get.totalPoint).sum)
+    								  .map({case (username, points) => Ranking(username, points)}).toList
     
   def calculatePoints(tipp: Tipp, game: Game): Int =
     calculateWinningPoints(tipp, game) +
@@ -50,7 +61,6 @@ class RankingCalculator {
     }
   }
   
-  private def toRanking(tippScore : (Tipp, Int)): Ranking = tippScore match {
-    case (tipp, score) => Ranking(tipp.user.name, score)
-  }
+//  private def toRanking(tippScore : Tipp): Ranking = 
+//    Ranking(tipp.user.name, score)
 }
