@@ -23,7 +23,7 @@ class RankingCalculator {
   def calculateRanking(tipps: List[Tipp], games: List[Game]): List[Ranking] = 
     calculateTippResults(tipps, games).groupBy(_.user.name)
     								  .mapValues(_.filterNot(_.tippResult.isEmpty).map(_.tippResult.get.totalPoint).sum)
-    								  .map({case (username, points) => Ranking(username, points)}).toList
+    								  .map({case (username, points) => Ranking(username, points)}).toList.sortBy(_.points)
     
   def calculatePoints(tipp: Tipp, game: Game): Int =
     calculateWinningPoints(tipp, game) +
