@@ -13,10 +13,10 @@ trait Core {
 }
 
 trait BootedCore extends Core {
-  val system = ActorSystem("worldcup-madness")
+  implicit val system = ActorSystem("worldcup-madness")
 
-  override val bookie = system.actorOf(Bookie.props, name = "betAccountant")
   override val gameManager = system.actorOf(GameManager.props, name ="gameManager")
+  override val bookie = system.actorOf(Bookie.props(gameManager), name = "betAccountant")
   override val userManager = system.actorOf(UserManager.props, name ="userManager")
 
   val matchUpdater = system.actorOf(MatchUpdater.props(gameManager), name ="matchUpdater")

@@ -7,17 +7,38 @@ import akka.actor.ActorLogging
 import com.zuehlke.worldcup.core.model.User
 import com.zuehlke.worldcup.core.model.Game
 import com.zuehlke.worldcup.core.model.Ranking
+import akka.actor.ActorRef
+import akka.pattern.ask
+import scala.concurrent.duration._
+import akka.util.Timeout
+import akka.actor.ActorSystem
 
-class Bookie extends Processor with ActorLogging {
+class Bookie(val gameManager: ActorRef)(implicit system: ActorSystem) extends Processor with ActorLogging {
+  
+  implicit val executionContext = system.dispatcher
+  implicit val defaultTimeout = Timeout(5.seconds)
+  val calculator = new RankingCalculator()
   
   private var tipps: List[Tipp] = Nil
   
   import Bookie._
   
   override def receive = {
-	case Persistent(PlaceBet(tipp), sequenceNr) => 
+	case Persistent(PlaceBet(tipp), sequenceNr) =>
+	  val respondTo = sender
+	  import GameManager._
+	  (gameManager ? GetGames).mapTo[GetGamesResult].map(_.games ).map(games => {
+	    games.find(_.gameId == tipp.gameId) match {
+	      case None 								=> respondTo ! BetInvalid
+	      case Some(game) if !game.tippsAccepted	=> respondTo ! BetInvalid
+	      case Some(game)							=> self ! UpdateBets(tipp, respondTo)
+	    }
+	  })
+
+	case UpdateBets(tipp, respondTo) => 
 	  placeBet(tipp)
-	  sender ! BetPlaced
+	  respondTo ! BetPlaced
+	  
 	case PersistenceFailure(payload, sequenceNr, cause) =>
 	  log.error(s"Unable to persist message $payload")
 	  
@@ -28,53 +49,7 @@ class Bookie extends Processor with ActorLogging {
 	  sender ! GetBetsResult(tipps.filter(_.user.name == username))
 	  
 	case CalculatePoints(games) =>
-	  sender ! RankingResult(calculateRanking(tipps, games).sortBy(_.points))
-  }
-  
-  private def calculateRanking(tipps: List[Tipp], games: List[Game]): List[Ranking] = 
-    tipps.map(tipp => games.find(_.gameId == tipp.gameId) match {
-      case None 		=> (tipp, 0)
-      case Some(game) 	if game.result.isDefined => (tipp, calculatePoints(tipp, game))
-    }).groupBy(_._1).values.flatten.map(toRanking(_)).toList
-    
-  def calculatePoints(tipp: Tipp, game: Game): Int =
-    calculateWinningPoints(tipp, game) +
-    calculateGoalDifferencePoints(tipp, game) +
-    calculateExactGoalMatchPoints(tipp, game)
-    
-  def calculateWinningPoints(tipp: Tipp, game: Game): Int = {
-    val tippDiff = tipp.goalsTeam1 - tipp.goalsTeam2
-    val gameDiff = game.result.get.goalsTeam1 - game.result.get.goalsTeam2
-    
-    if (tippDiff > 0 && gameDiff > 0 || tippDiff < 0 && gameDiff < 0 || tippDiff == 0 && gameDiff == 0) {
-      5
-    } else {
-      0
-    }
-  }
-    
-  def calculateGoalDifferencePoints(tipp: Tipp, game: Game): Int = {
-    val tippDiff = tipp.goalsTeam1 - tipp.goalsTeam2
-    val gameDiff = game.result.get.goalsTeam1 - game.result.get.goalsTeam2
-    
-    math.abs(tippDiff) == math.abs(gameDiff) match {
-      case true 	=> 1
-      case false 	=> 0
-    }
-  }
-  
-  def calculateExactGoalMatchPoints(tipp: Tipp, game: Game): Int = {
-    if(tipp.goalsTeam1 == game.result.get.goalsTeam1 && tipp.goalsTeam2 == game.result.get.goalsTeam2) {
-      4
-    } else if(tipp.goalsTeam1 == game.result.get.goalsTeam1 || tipp.goalsTeam2 == game.result.get.goalsTeam2) {
-      2
-    } else {
-      0
-    }
-  }
-   
-  private def toRanking(tippScore : (Tipp, Int)): Ranking = tippScore match {
-    case (tipp, score) => Ranking(tipp.user.name, score)
+	  sender ! RankingResult(calculator.calculateRanking(tipps, games).sortBy(_.points))
   }
   
   private def placeBet(newTipp: Tipp) = 
@@ -86,6 +61,7 @@ class Bookie extends Processor with ActorLogging {
 object Bookie {
   sealed trait BookieMessage
   case class PlaceBet(tipp: Tipp) extends BookieMessage
+  private case class UpdateBets(tipp: Tipp, respondTo: ActorRef) extends BookieMessage
   case object BetPlaced extends BookieMessage
   case object BetInvalid extends BookieMessage
   case object GetAllBets extends BookieMessage
@@ -95,6 +71,6 @@ object Bookie {
   case class CalculatePoints(games: List[Game]) extends BookieMessage
   case class RankingResult(rankings: List[Ranking]) extends BookieMessage
   
-  def props(): Props =
-    Props(new Bookie())
+  def props(gameManager: ActorRef)(implicit system: ActorSystem): Props =
+    Props(new Bookie(gameManager))
 }
