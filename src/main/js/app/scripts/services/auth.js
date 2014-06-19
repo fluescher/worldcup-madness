@@ -8,6 +8,8 @@ worldcup.factory('Auth', function ($rootScope, $q, $location, BasicAuth, User) {
 
     User.get(function (data) {
         user = data;
+        user.password = '';
+        $rootScope.$broadcast('Auth:login', user);
     });
 
     Auth.login = function (credentials, success, error) {
@@ -17,7 +19,9 @@ worldcup.factory('Auth', function ($rootScope, $q, $location, BasicAuth, User) {
 
         User.get(function (data) {
             user = data;
+            user.password = '';
             success(data);
+            $rootScope.$broadcast('Auth:login', user);
         });
     };
 
