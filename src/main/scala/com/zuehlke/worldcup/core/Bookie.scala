@@ -34,7 +34,7 @@ class Bookie extends Processor with ActorLogging {
   private def calculateRanking(tipps: List[Tipp], games: List[Game]): List[Ranking] = 
     tipps.map(tipp => games.find(_.gameId == tipp.gameId) match {
       case None 		=> (tipp, 0)
-      case Some(game) 	=> (tipp, calculatePoints(tipp, game))
+      case Some(game) 	if game.result.isDefined => (tipp, calculatePoints(tipp, game))
     }).groupBy(_._1).values.flatten.map(toRanking(_)).toList
     
   def calculatePoints(tipp: Tipp, game: Game): Int =
