@@ -22,6 +22,10 @@ worldcup.config(function ($routeProvider) {
             templateUrl: 'views/register.html',
             controller: 'RegisterCtrl'
         })
+        .when('/user', {
+            templateUrl: 'views/user.html',
+            controller: 'UserCtrl'
+        })
         .when('/rankings/', {
             templateUrl: 'views/rankings.html',
             controller: 'RankingsCtrl'

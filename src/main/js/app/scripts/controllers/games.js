@@ -9,6 +9,7 @@ worldcup.controller('GamesCtrl', function ($scope, Games, Tipps, Auth) {
                     for(var i = 0; i < games.length; i++) {
                         if (games[i].gameId === tip.gameId) {
                             games[i].tip = tip;
+                            tip.points = 3;
                             break;
                         }
                     }
@@ -22,11 +23,10 @@ worldcup.controller('GamesCtrl', function ($scope, Games, Tipps, Auth) {
 
                 var filteredGames = games.splice(index, games.length);
 
-                $scope.games = games;
+                $scope.games = filteredGames;
             });
         });
     });
-
 
     function getIndexOfFirstNotAcceptedGame(games){
         for(var i = 0; i < games.length; i++) {
@@ -34,7 +34,12 @@ worldcup.controller('GamesCtrl', function ($scope, Games, Tipps, Auth) {
                 return i;
             }
         }
+        return 0;
     }
+
+    $scope.getPoints = function(points) {
+        return new Array(points);
+    };
 
     $scope.saveTip = function(game) {
         if (!angular.isNumber(game.tip.goalsTeam1) || game.tip.goalsTeam1 < 0){

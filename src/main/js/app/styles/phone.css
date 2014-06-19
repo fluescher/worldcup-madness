@@ -5,7 +5,7 @@
     .flag {
         max-width: 25px;
     }
-    .bs-callout .col-xs-2, .col-xs-4{
+    .bs-callout .col-xs-2, .bs-callout .col-xs-4{
         padding: 0px;
     }
     .points{
