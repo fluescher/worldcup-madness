@@ -1,5 +1,9 @@
 import AssemblyKeys._
 
+import com.typesafe.sbt.SbtStartScript
+
+seq(SbtStartScript.startScriptForClassesSettings: _*)
+
 name := "worldcup-madness"
 
 version := "1.0"
