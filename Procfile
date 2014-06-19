@@ -1,1 +1,1 @@
-web: target/start com.zuehlke.worldcup.Main
+web: target/start com.zuehlke.worldcup.Heroku
