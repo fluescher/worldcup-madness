@@ -12,6 +12,7 @@ import akka.pattern.ask
 import scala.concurrent.duration._
 import akka.util.Timeout
 import akka.actor.ActorSystem
+import org.joda.time.DateTime
 
 class Bookie(val gameManager: ActorRef)(implicit system: ActorSystem) extends Processor with ActorLogging {
   
@@ -24,14 +25,14 @@ class Bookie(val gameManager: ActorRef)(implicit system: ActorSystem) extends Pr
   import Bookie._
   
   override def receive = {
-	case Persistent(PlaceBet(tipp), sequenceNr) =>
+	case Persistent(PlaceBet(tipp, time), sequenceNr) =>
 	  val respondTo = sender
 	  import GameManager._
 	  (gameManager ? GetGames).mapTo[GetGamesResult].map(_.games ).map(games => {
 	    games.find(_.gameId == tipp.gameId) match {
-	      case None 								=> respondTo ! BetInvalid
-	      case Some(game) if !game.tippsAccepted	=> respondTo ! BetInvalid
-	      case Some(game)							=> self ! UpdateBets(tipp, respondTo)
+	      case None 									=> respondTo ! BetInvalid
+	      case Some(game) if !game.tippsAccepted(time)	=> respondTo ! BetInvalid
+	      case Some(game)								=> self ! UpdateBets(tipp, respondTo)
 	    }
 	  })
 
@@ -60,7 +61,7 @@ class Bookie(val gameManager: ActorRef)(implicit system: ActorSystem) extends Pr
 
 object Bookie {
   sealed trait BookieMessage
-  case class PlaceBet(tipp: Tipp) extends BookieMessage
+  case class PlaceBet(tipp: Tipp, time: DateTime) extends BookieMessage
   private case class UpdateBets(tipp: Tipp, respondTo: ActorRef) extends BookieMessage
   case object BetPlaced extends BookieMessage
   case object BetInvalid extends BookieMessage
