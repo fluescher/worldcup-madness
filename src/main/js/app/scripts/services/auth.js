@@ -41,7 +41,10 @@ worldcup.factory('Auth', function ($rootScope, $q, $location, BasicAuth, User) {
         if (user === null) {
             loadUser(callback);
         } else {
-            callback(user);
+            if (angular.isFunction(callback)){
+                callback(user);
+            }
+            return user;
         }
     };
 
