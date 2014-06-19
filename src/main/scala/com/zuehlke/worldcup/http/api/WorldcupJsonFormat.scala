@@ -39,7 +39,8 @@ object WorldcupJsonFormat {
         case None 			=> JsNull
         case Some(result) 	=> gameResultFormat.write(result)
       }),
-      "gameId" -> JsString(g.gameId)
+      "gameId" -> JsString(g.gameId),
+      "tippsAccepted" -> JsBoolean(g.tippsAccepted)
     )
     def read(value: JsValue): Game = ??? /* We never have to read a Game */
   }
