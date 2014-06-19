@@ -32,7 +32,7 @@ worldcup.controller('UserCtrl', function ($scope, Ranking, Games, Tipps, $routeP
         Games.query(function (games) {
             angular.forEach(tipps, function (tip) {
                 for (var i = 0; i < games.length; i++) {
-                    if (games[i].gameId === tip.gameId) {
+                    if (games[i].gameId === tip.gameId && angular.isDefined(tip.tippResult)) {
                         games[i].tip = tip;
                         tip.points = tip.tippResult.totalPoint;
                         break;
