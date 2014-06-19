@@ -26,7 +26,7 @@
                 <button type="submit" class="btn btn-default" ng-click="logout();">Logout</button>
             </form>
             <ul class="nav navbar-nav navbar-right" ng-show="isLoggedIn()">
-                <li ng-class="navClass('profile')"><a href="#/profile">User: {{getUser().name}}</a></li>
+                <li ng-class="navClass('profile')"><a href="#/profile">User: {{user.name}}</a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->

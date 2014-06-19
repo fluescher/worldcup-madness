@@ -1,6 +1,6 @@
 'use strict';
 
-worldcup.controller('GamesCtrl', function ($scope, $rootScope, Games, $http, Tipps, Auth) {
+worldcup.controller('GamesCtrl', function ($scope, Games, Tipps, Auth) {
     $scope.games = Games.query();
 
     $scope.save = function () {
@@ -12,21 +12,14 @@ worldcup.controller('GamesCtrl', function ($scope, $rootScope, Games, $http, Tip
         };
         console.log(angular.toJson(tip));
 
-        $http.post('http://localhost:8080/api/tipps', tip).success(function (data) {
-            console.log(data);
+        Tipps.save(tip, function () {
+            console.log('Saved tip: ' + tip);
         });
     };
 
-    $rootScope.$on('Auth:login', function () {
-        Tipps.get({userId: 'test'}, function(data){
-            console.log(data);
-        });
-        console.log(Auth.getUser());
-
-        $http.get('http://localhost:8080/api/tipps/' + Auth.getUser().name).success(function (data) {
-            console.log(data);
-            $scope.tipps = data;
-        });
+    Auth.getUser(function (user) {
+        console.log(user);
+        $scope.tipps = Tipps.get({userId: user.name});
     });
 
 });
