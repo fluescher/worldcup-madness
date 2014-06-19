@@ -55,9 +55,22 @@ object WorldcupJsonFormat {
     )
     def read(value: JsValue): Game = ??? /* We never have to read a Game */
   }
+  implicit object tippResponseFormat extends RootJsonFormat[TippResponse] {
+    def write(tr: TippResponse) = {
+	  val fields =  List(
+	    "goalsTeam2" -> JsNumber(tr.goalsTeam2 ),
+        "goalsTeam1" -> JsNumber(tr.goalsTeam1 ),
+        "gameId" -> JsString(tr.gameId)) 
+        JsObject(tr.tippResult match {
+          case None 			=> fields
+          case Some(tippResult) => ("tippResult" -> tippResultFormat.write(tippResult) :: fields).reverse
+        })
+    }
+    def read(value: JsValue): TippResponse = ??? /* We never have to read a TippResponse */
+  }
+  
   implicit val rankingFormat = jsonFormat2(Ranking.apply)
   implicit val tippRequestFormat = jsonFormat3(TippRequest.apply)
-  implicit val tippResponseFormat = jsonFormat3(TippResponse.apply)
   implicit val tippResultFormat = jsonFormat4(TippResult.apply)
 
 }

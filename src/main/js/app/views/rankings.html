@@ -1,7 +1,7 @@
 <h2>Multiverse Rankinglist</h2>
 <div>
     <div class="panel">
-        <label class="col-sm-2 control-label">Your rank is: {{yourRank(players)}}</label>
+        <label class="col-sm-2 control-label">Your ranking is: {{yourRank()}}</label>
 
     </div>
     <div class="table-responsive">
@@ -14,10 +14,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="player in players" ng-click="show(player)">
-                <td>{{player.rank}}</td>
-                <td>{{player.username}}</td>
-                <td>{{player.points}}</td>
+            <tr ng-repeat="ranking in rankings" ng-click="show(player)">
+                <td>{{ranking.rank}}</td>
+                <td>{{ranking.username}}</td>
+                <td>{{ranking.points}}</td>
             </tr>
             </tbody>
         </table>
