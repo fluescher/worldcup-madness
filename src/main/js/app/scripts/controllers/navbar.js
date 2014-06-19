@@ -14,8 +14,8 @@ worldcup.controller('NavbarCtrl', function ($scope, $location, Auth) {
         Auth.logout();
     };
 
-    $scope.getUser = function () {
-        return Auth.getUser();
-    };
+    Auth.getUser(function(user){
+        $scope.user = user;
+    });
 
 });

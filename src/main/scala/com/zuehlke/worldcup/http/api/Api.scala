@@ -96,8 +96,13 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef, val bookie: Acto
 		              path("ranking") {
 		                get {
 		                  complete {
-		                    //RankingCalculator.calculate()
-		                    List(Ranking("pas", 12), Ranking("fllu", 15)).sortBy(_.points)
+		                    import Bookie._
+		                     import GameManager._
+		                    (gameManager ? GetGames).mapTo[GetGamesResult]
+		                    						.map(_.games)
+		                    						.map(games =>
+		                        (bookie ? CalculatePoints(games)).mapTo[RankingResult].map(_.rankings)
+		                    )
 		                  }
 		                } 
 		              } ~

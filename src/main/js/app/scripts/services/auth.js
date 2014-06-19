@@ -6,19 +6,25 @@ worldcup.factory('Auth', function ($rootScope, $q, $location, BasicAuth, User) {
     var user = null;
     var errorCallback = null;
 
-    User.get(function (data) {
-        user = data;
-    });
+    function loadUser(callback) {
+        console.log('loadUser');
+        User.get(function (newUser) {
+            user = newUser;
+            user.password = '';
+
+            if (angular.isFunction(callback)) {
+                callback(user);
+            }
+        });
+    }
+    loadUser();
 
     Auth.login = function (credentials, success, error) {
         errorCallback = error;
 
         BasicAuth.setCredentials(credentials);
 
-        User.get(function (data) {
-            user = data;
-            success(data);
-        });
+        loadUser(success);
     };
 
     Auth.logout = function () {
@@ -31,8 +37,12 @@ worldcup.factory('Auth', function ($rootScope, $q, $location, BasicAuth, User) {
         return user !== null;
     };
 
-    Auth.getUser = function () {
-        return user;
+    Auth.getUser = function (callback) {
+        if (user === null) {
+            loadUser(callback);
+        } else {
+            callback(user);
+        }
     };
 
     $rootScope.$on('Auth:loginFailed', function () {
