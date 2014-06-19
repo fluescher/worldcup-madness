@@ -15,7 +15,7 @@ import com.zuehlke.worldcup.core.model.Game
 import com.zuehlke.worldcup.core.model.GameResult
 import spray.json._
 
-class MatchUpdater(val gameManager: ActorRef) extends Actor with ActorLogging {
+class MatchUpdater(val gameManager: ActorRef, val bookie: ActorRef) extends Actor with ActorLogging {
   import GameManager._
   import MatchUpdater._
   import context._
@@ -27,7 +27,7 @@ class MatchUpdater(val gameManager: ActorRef) extends Actor with ActorLogging {
   override def receive = {
     case UpdateGames => 
       log.info("Updating games")
-      queryAndMap().onSuccess({case games => gameManager ! GamesUpdated(games)})
+      queryAndMap().onSuccess({case games => gameManager ! GamesUpdated(games); bookie ! Bookie.UpdateGames(games)})
   }
   
   object ResponseProtocol extends DefaultJsonProtocol {
@@ -97,6 +97,6 @@ object MatchUpdater {
 	  				  	  score1p: Option[String], score2p: Option[String])
   case class RoundResult(event: Event, round: Round, games: List[FootballGame])
   
-  def props(gameManager: ActorRef) =
-    Props(new MatchUpdater(gameManager))
+  def props(gameManager: ActorRef, bookie: ActorRef) =
+    Props(new MatchUpdater(gameManager, bookie))
 }

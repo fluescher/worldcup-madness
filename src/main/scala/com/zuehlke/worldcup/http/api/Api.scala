@@ -101,12 +101,7 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef, val bookie: Acto
 		                get {
 		                  complete {
 		                    import Bookie._
-		                     import GameManager._
-		                    (gameManager ? GetGames).mapTo[GetGamesResult]
-		                    						.map(_.games)
-		                    						.map(games =>
-		                        (bookie ? CalculatePoints(games)).mapTo[RankingResult].map(_.rankings)
-		                    )
+                           (bookie ? CalculatePoints).mapTo[RankingResult].map(_.rankings)
 		                  }
 		                } 
 		              } ~
