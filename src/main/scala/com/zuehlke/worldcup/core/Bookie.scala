@@ -52,7 +52,7 @@ class Bookie(implicit system: ActorSystem) extends Processor with ActorLogging {
 	  tipps = calculator.calculateTippResults(tipps, this.games)
 	  
 	case CalculatePoints =>
-	  sender ! RankingResult(calculator.calculateRanking(tipps, games).sortBy(_.points))
+	  sender ! RankingResult(calculator.calculateRanking(tipps, games).sortBy(_.points).reverse)
   }
   
   private def placeBet(newTipp: Tipp) = 
