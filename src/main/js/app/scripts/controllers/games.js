@@ -20,7 +20,6 @@ worldcup.controller('GamesCtrl', function ($scope, Games, Tipps, Auth) {
                 if (index > 2) {
                     index = index - 2;
                 }
-
                 var filteredGames = games.splice(index, games.length);
 
                 $scope.games = filteredGames;

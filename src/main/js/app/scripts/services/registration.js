@@ -3,7 +3,7 @@
  */
 'use strict';
 worldcup.factory('registration', ['$resource', function ($resource) {
-    return $resource('http://localhost:8080/api/:register',
+    return $resource('http://' + worldcup.host + '/api/:register',
         {
             register: '@register'
         },
