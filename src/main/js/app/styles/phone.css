@@ -8,4 +8,7 @@
     .bs-callout .col-xs-2, .col-xs-4{
         padding: 0px;
     }
+    .points{
+        line-height: 16px;
+    }
 }
