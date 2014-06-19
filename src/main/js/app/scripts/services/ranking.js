@@ -4,5 +4,5 @@
 'use strict';
 
 worldcup.factory('Ranking', ['$resource', function ($resource) {
-    return $resource('http://localhost:8080/api/ranking/');
+    return $resource('http://' + worldcup.host + '/api/ranking/');
 }]);

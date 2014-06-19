@@ -1,3 +1,11 @@
+<style>
+    @media (max-width: 640px) {
+        .container {
+            padding:0px;
+        }
+    }
+</style>
+
 <div class="bs-callout bs-callout-info" ng-repeat="game in games">
     <div class="row text-center teamname">
         <div class="col-xs-2"><h3>{{game.team1.abbrevation}}</h3></div>
@@ -13,29 +21,16 @@
     </div>
     <div class="row text-center">
         <div class="col-xs-12" ng-show="game.tippsAccepted">
-            <input type="number" class="form-control score" ng-model="game.tip.goalsTeam1" ng-change="saveTip(game)"><span>:</span>
+            <input type="number" class="form-control score" ng-model="game.tip.goalsTeam1"
+                   ng-change="saveTip(game)"><span>:</span>
             <input type="number" class="form-control score" ng-model="game.tip.goalsTeam2" ng-change="saveTip(game)">
         </div>
         <div class="col-xs-12" ng-show="!game.tippsAccepted && game.tip">
             <div class="col-xs-4"><h4>Bet {{game.tip.goalsTeam1}} : {{game.tip.goalsTeam2}}</h4></div>
-            <div class="col-xs-4"><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></span><span class="glyphicon glyphicon-star points"></div>
-            <div class="col-xs-4"><h4>4 Points</h4></div>
+            <div class="col-xs-4"><span class="glyphicon glyphicon-star points"
+                                        ng-repeat="i in getPoints(game.tip.points) track by $index"></span></div>
+            <div class="col-xs-4"><h4>{{game.tip.points}} Points</h4></div>
         </div>
-    </div>
-</div>
-
-<div class="bs-callout bs-callout-info">
-    <div class="row text-center">
-        <div class="col-xs-4">BRA</div>
-        <div class="col-xs-4">3 : 1</div>
-        <div class="col-xs-4">MEX</div>
-    </div>
-    <div class="row text-center">
-        <div class="col-xs-12">12.6 - 22:01</div>
-    </div>
-    <div class="row text-center">
-        <div class="col-xs-4">Bet 3 : 2</div>
-        <div class="col-xs-4 col-xs-offset-4">4 Points</div>
     </div>
 </div>
 

@@ -7,6 +7,8 @@ var worldcup = angular.module('worldcupApp', [
     'ngRoute'
 ]);
 
+worldcup.host = 'worldcup-madness.herokuapp.com';
+
 worldcup.config(function ($routeProvider) {
     $routeProvider
         .when('/', {
@@ -21,6 +23,10 @@ worldcup.config(function ($routeProvider) {
         .when('/register', {
             templateUrl: 'views/register.html',
             controller: 'RegisterCtrl'
+        })
+        .when('/user', {
+            templateUrl: 'views/user.html',
+            controller: 'UserCtrl'
         })
         .when('/rankings/', {
             templateUrl: 'views/rankings.html',

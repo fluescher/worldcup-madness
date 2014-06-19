@@ -8,5 +8,4 @@ target
 *.sc
 .idea
 *.iml
-/src/main/resources/ui/
 /src/main/js/npm-debug.log

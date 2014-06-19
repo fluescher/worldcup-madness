@@ -9,7 +9,7 @@ worldcup.controller('RankingsCtrl', function ($scope, Auth, Ranking) {
     $scope.yourRank = function(players) {
         for (var i = 0; i < players.length; i++) {
             if(players[i].username === Auth.getUser().name) {
-                return players[i].points;
+                return players[i].rank;
             }
         }
     };
