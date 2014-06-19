@@ -62,7 +62,7 @@ class Bookie(val gameManager: ActorRef)(implicit system: ActorSystem) extends Pr
 object Bookie {
   sealed trait BookieMessage
   case class PlaceBet(tipp: Tipp, time: DateTime) extends BookieMessage
-  private case class UpdateBets(tipp: Tipp, respondTo: ActorRef) extends BookieMessage
+  case class UpdateBets(tipp: Tipp, respondTo: ActorRef) extends BookieMessage
   case object BetPlaced extends BookieMessage
   case object BetInvalid extends BookieMessage
   case object GetAllBets extends BookieMessage
