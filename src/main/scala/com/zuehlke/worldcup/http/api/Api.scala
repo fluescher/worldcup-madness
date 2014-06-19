@@ -76,16 +76,16 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef, val bookie: Acto
 		                  complete {
 		                    import Bookie._
 		                    pathUser match {
-		                      case None 		=> (bookie ? GetAllBets).mapTo[GetAllBetsResult].map(_.bets)
-		                      case Some(name)	=> (bookie ? GetBets(name)).mapTo[GetBetsResult].map(_.bets)
+		                      case None 		=> (bookie ? GetAllBets).mapTo[GetAllBetsResult].map(_.bets).map(a => a.mapValues(_.map(_.convert)))
+		                      case Some(name)	=> (bookie ? GetAllBets).mapTo[GetAllBetsResult].map(_.bets).map(a => a.mapValues(_.map(_.convert)))
 		                    }
 		                  }
 		                } ~
 		                  post {
-		                    entity(as[Tipp]) { tipp => 
+		                    entity(as[TippRequest]) { tipp => 
 		                      complete {
 		                        import Bookie._
-		                        (bookie ? Persistent(PlaceBet(tipp.updateUser(user)))).map({
+		                        (bookie ? Persistent(PlaceBet(tipp.convert(user)))).map({
 		                          case BetPlaced  => StatusCodes.OK 
 		                          case BetInvalid => StatusCodes.BadRequest 
 		                        })
@@ -96,8 +96,13 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef, val bookie: Acto
 		              path("ranking") {
 		                get {
 		                  complete {
-		                    //RankingCalculator.calculate()
-		                    List(Ranking("pas", 12), Ranking("fllu", 15)).sortBy(_.points)
+		                    import Bookie._
+		                     import GameManager._
+		                    (gameManager ? GetGames).mapTo[GetGamesResult]
+		                    						.map(_.games)
+		                    						.map(games =>
+		                        (bookie ? CalculatePoints(games)).mapTo[RankingResult].map(_.rankings)
+		                    )
 		                  }
 		                } 
 		              } ~

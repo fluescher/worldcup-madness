@@ -44,5 +44,7 @@ object WorldcupJsonFormat {
     def read(value: JsValue): Game = ??? /* We never have to read a Game */
   }
   implicit val rankingFormat = jsonFormat2(Ranking.apply)
-  implicit val tippFormat = jsonFormat4(Tipp)
+  implicit val tippRequestFormat = jsonFormat3(TippRequest.apply)
+  implicit val tippResponseFormat = jsonFormat3(TippResponse.apply)
+
 }
