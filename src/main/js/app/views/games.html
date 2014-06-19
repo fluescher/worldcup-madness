@@ -1,5 +1,5 @@
 <h1 class="welcome" ng-click="save()">Welcome to Worldcup Madness</h1>
-{{tipps}}
+
 <div class="bs-callout bs-callout-info" ng-repeat="game in games">
     <div class="row text-center teamname">
         <div class="col-xs-2"><h3>{{game.team1.abbrevation}}</h3></div>
@@ -15,7 +15,8 @@
     </div>
     <div class="row text-center">
         <div class="col-xs-12">
-            <input type="number" class="form-control score">:<input type="number" class="form-control score">
+            <input type="number" class="form-control score" ng-model="game.tip.goalsTeam1" ng-change="saveTip(game)">:
+            <input type="number" class="form-control score" ng-model="game.tip.goalsTeam2" ng-change="saveTip(game)">
         </div>
     </div>
 </div>
