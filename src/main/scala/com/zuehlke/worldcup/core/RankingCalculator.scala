@@ -61,6 +61,4 @@ class RankingCalculator {
     }
   }
   
-//  private def toRanking(tippScore : Tipp): Ranking = 
-//    Ranking(tipp.user.name, score)
 }
