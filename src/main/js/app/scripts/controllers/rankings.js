@@ -3,7 +3,7 @@
  */
 'use strict';
 
-worldcup.controller('RankingsCtrl', function ($scope, Auth, Ranking, $location) {
+worldcup.controller('RankingsCtrl', function ($scope, Auth, Ranking) {
     $scope.rankings = Ranking.query(function (rankings) {
         var points = null;
         var rank = 0;
@@ -26,6 +26,6 @@ worldcup.controller('RankingsCtrl', function ($scope, Auth, Ranking, $location) 
     };
 
     $scope.profileUrl = function (username) {
-        return '/user/'+username;
+        return '/user/' + username;
     };
 });

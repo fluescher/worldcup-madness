@@ -34,7 +34,7 @@ worldcup.controller('UserCtrl', function ($scope, Ranking, Games, Tipps, $routeP
                 for (var i = 0; i < games.length; i++) {
                     if (games[i].gameId === tip.gameId) {
                         games[i].tip = tip;
-                        tip.points = 3;
+                        tip.points = tip.tippResult.totalPoint;
                         break;
                     }
                 }
