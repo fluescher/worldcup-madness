@@ -1,7 +1,4 @@
 @media (max-width: 640px) {
-    .container{
-        padding: 5px;
-    }
     .flag {
         max-width: 25px;
     }
