@@ -1,1 +1,1 @@
-web: target/start Main
+web: target/start com.zuehlke.worldcup.Main
