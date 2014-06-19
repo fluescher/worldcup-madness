@@ -8,6 +8,7 @@ var worldcup = angular.module('worldcupApp', [
 ]);
 
 worldcup.host = 'worldcup-madness.herokuapp.com';
+//worldcup.host = 'localhost:8080';
 
 worldcup.config(function ($routeProvider) {
     $routeProvider
