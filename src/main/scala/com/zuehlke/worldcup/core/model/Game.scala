@@ -8,10 +8,15 @@ case class Game(startTime: String, round: Int,
 			    team1: Team, team2: Team, 
 			    result: Option[GameResult]) {
   def gameId: String = s"${round}-${team1.abbreviation}-${team2.abbreviation}"
-  def tippsAccepted = {
+  
+  def tippsAccepted(dateTime: DateTime): Boolean = {
     val format = DateTimeFormat.forPattern("yyyy/MM/dd")
     val startDate = format.parseDateTime(startTime)
-    startDate + 18.hours > new DateTime(myZone)
+    startDate + 18.hours > dateTime
+  }
+  
+  def tippsAccepted: Boolean = {
+    tippsAccepted(new DateTime(myZone))
   }
   private val myZone = DateTimeZone.forID("Europe/Zurich")
 } 
