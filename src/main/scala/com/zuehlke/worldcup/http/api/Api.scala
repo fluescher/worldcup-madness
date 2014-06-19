@@ -38,6 +38,8 @@ import com.zuehlke.worldcup.core.model.Ranking
 import com.zuehlke.worldcup.core.model.Tipp
 import com.zuehlke.worldcup.core.Bookie
 import spray.routing.PathMatcher
+import org.joda.time.DateTimeZone
+import org.joda.time.DateTime
 
 class Api(val gameManager: ActorRef, val userManager: ActorRef, val bookie: ActorRef)(implicit system: ActorSystem) extends RouteProvider with Directives {
 
@@ -49,6 +51,8 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef, val bookie: Acto
 
   implicit val defaultTimeout = Timeout(5.seconds)
 
+  private val myZone = DateTimeZone.forID("Europe/Zurich")
+  
   import WorldcupJsonFormat._
 
   override val route =
@@ -85,7 +89,7 @@ class Api(val gameManager: ActorRef, val userManager: ActorRef, val bookie: Acto
 		                    entity(as[TippRequest]) { tipp => 
 		                      complete {
 		                        import Bookie._
-		                        (bookie ? Persistent(PlaceBet(tipp.convert(user)))).map({
+		                        (bookie ? Persistent(PlaceBet(tipp.convert(user), new DateTime(myZone)))).map({
 		                          case BetPlaced  => StatusCodes.OK 
 		                          case BetInvalid => StatusCodes.BadRequest 
 		                        })
