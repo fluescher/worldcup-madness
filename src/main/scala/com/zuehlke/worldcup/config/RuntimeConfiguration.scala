@@ -14,3 +14,8 @@ trait OpenshiftConfiguration extends RuntimeConfiguration {
   override val ip = sys.env("OPENSHIFT_DIY_IP")
   override val port = sys.env("OPENSHIFT_DIY_PORT").toInt
 }
+
+trait HerokuConfiguration extends RuntimeConfiguration {
+  override val ip = "0.0.0.0"
+  override val port = sys.env("PORT").toInt
+}
