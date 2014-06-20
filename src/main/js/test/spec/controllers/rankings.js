@@ -19,6 +19,9 @@ describe('Controller: RankingsCtrl', function () {
         Auth = {
             getUser: function () {
                 return 'pat';
+            },
+            isLoggedIn: function () {
+                return true;
             }
         };
         Ranking = {

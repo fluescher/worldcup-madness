@@ -20,8 +20,4 @@ worldcup.controller('NavbarCtrl', function ($scope, $location, $rootScope, Auth)
         $scope.user = Auth.getUser();
     });
 
-    $scope.getProfile = function () {
-        return '#/user/' + $scope.user.name;
-    };
-
 });

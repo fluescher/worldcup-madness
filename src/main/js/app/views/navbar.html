@@ -21,7 +21,7 @@
                 <ul class="nav navbar-nav" ng-show="isLoggedIn()" data-toggle="collapse" data-target="#navbar-phone">
                     <li ng-class="navClass('games')"><a href="#">Games</a></li>
                     <li ng-class="navClass('rankings')"><a href="#/rankings">Ranking</a></li>
-                    <li ng-class="navClass('user')"><a ng-href="getProfile()">My Profile</a></li>
+                    <li ng-class="navClass('user')"><a ng-href="#/user/{{user.name}}">My Profile</a></li>
                     <li ng-class="navClass('rule')"><a
                             href="https://github.com/fluescher/worldcup-madness/wiki/Rules-of-the-game">Rules</a></li>
                 </ul>
@@ -29,7 +29,7 @@
                     <button type="submit" class="btn btn-default" ng-click="logout();">Logout</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right" ng-show="isLoggedIn()" data-toggle="collapse" data-target="#navbar-phone">
-                    <li><a ng-href="getProfile()">User: {{user.name}}</a></li>
+                    <li><a ng-href="#/user/{{user.name}}">User: {{user.name}}</a></li>
                 </ul>
             </div>
         </div>
@@ -51,7 +51,7 @@
                     <button type="submit" class="btn btn-default" ng-click="logout();">Logout</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right" ng-show="isLoggedIn()">
-                    <li><a ng-href="getProfile()">User: {{user.name}}</a></li>
+                    <li><a ng-href="#/user/{{user.name}}">User: {{user.name}}</a></li>
                 </ul>
             </div>
         </div>
