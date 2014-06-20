@@ -17,7 +17,7 @@ trait Core {
 
 trait BootedCore extends Core {
   val mongoHost = sys.env("MONGOHQ_URL")
-  val backup = ConfigFactory.parseString(s"casbah-journal.mongo-journal-url = $mongoHost")  
+  val backup = ConfigFactory.parseString("casbah-journal.mongo-journal-url = \""+mongoHost+"\"")  
   val config = ConfigFactory.defaultReference()
 println(backup)  
   implicit val system = ActorSystem("worldcup-madness", config.withFallback(backup))
