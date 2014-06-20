@@ -16,6 +16,8 @@ mainClass in assembly := Some("com.zuehlke.worldcup.Main")
 
 resolvers += "spray repo" at "http://repo.spray.io"
 
+resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+
 libraryDependencies ++= Seq(
   "com.typesafe.akka"       %% "akka-actor"         % "2.3.2",
   "com.typesafe.akka"       %% "akka-persistence-experimental" % "2.3.2",
@@ -26,6 +28,7 @@ libraryDependencies ++= Seq(
   "io.spray"                %% "spray-json"         % "1.2.6",
   "io.spray"                %% "spray-client"       % "1.3.1-20140423",
   "com.github.nscala-time"  %% "nscala-time"        % "1.2.0",
+  "com.github.ddevore"      %% "akka-persistence-mongo-casbah"  % "0.7.2-SNAPSHOT" % "compile",
   "io.spray"                %% "spray-testkit"      % "1.3.1-20140423"  % "test",
   "com.typesafe.akka"       %% "akka-testkit"       % "2.3.2"           % "test",
   "com.novocode"            % "junit-interface"	    % "0.7"             % "test->default",
@@ -46,6 +49,4 @@ scalacOptions ++= Seq(
 
 jarName in assembly := "worldcup-madness.jar"
 
-cleanFiles <+= baseDirectory { base => base / "journal" }
-
-cleanFiles <+= baseDirectory { base => base / "snapshots" }
+resourceDirectory in stage := baseDirectory.value / "src" / "main" / "heroku-resources"

@@ -5,6 +5,7 @@ import akka.persistence.Persistent
 import akka.actor.ActorRef
 import com.zuehlke.worldcup.core.model.User
 import com.zuehlke.worldcup.core.model.Tipp
+import com.typesafe.config.ConfigFactory
 
 trait Core {
   implicit def system: ActorSystem
@@ -15,8 +16,8 @@ trait Core {
 }
 
 trait BootedCore extends Core {
-  implicit val system = ActorSystem("worldcup-madness")
-
+  implicit val system = ActorSystem("worldcup-madness")//, config.withFallback(backup))
+  
   override val gameManager = system.actorOf(GameManager.props, name ="gameManager")
   override val bookie = system.actorOf(Bookie.props(gameManager), name = "bookie")
   override val userManager = system.actorOf(UserManager.props, name ="userManager")
