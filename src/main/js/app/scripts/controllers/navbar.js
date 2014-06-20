@@ -2,11 +2,8 @@
 
 worldcup.controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.navClass = function (page) {
-        console.log('#########################################');
         var currentRoute = $location.path().substring(1) || 'games';
         page = page === 'user/' ? page + $scope.user.name : page;
-        console.log(currentRoute);
-        console.log(page);
         return page === currentRoute ? 'active' : '';
     };
 
