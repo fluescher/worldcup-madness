@@ -25,7 +25,7 @@ class Bookie(implicit system: ActorSystem) extends Processor with ActorLogging {
   private var games: List[Game] = Nil
   import Bookie._
   
-  val startTime = new DateTime(DateTimeZone.forID("Europe/Dublin"))
+  val startTime = new DateTime(DateTimeZone.forID("Europe/Zurich"))
   log.info(s"Server time in Europe/Zurich: ${startTime}")
   
   override def receive = {
