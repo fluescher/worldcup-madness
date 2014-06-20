@@ -7,9 +7,9 @@ worldcup.controller('GamesCtrl', function ($scope, Games, Tipps, Auth) {
             Games.query(function (games) {
                 angular.forEach(tipps, function (tip) {
                     for(var i = 0; i < games.length; i++) {
-                        if (games[i].gameId === tip.gameId) {
+                        if (games[i].gameId === tip.gameId && angular.isDefined(tip.tippResult)) {
                             games[i].tip = tip;
-                            tip.points = 3;
+                            tip.points = tip.tippResult.totalPoint;
                             break;
                         }
                     }
@@ -17,8 +17,8 @@ worldcup.controller('GamesCtrl', function ($scope, Games, Tipps, Auth) {
 
                 var index = getIndexOfFirstNotAcceptedGame(games);
 
-                if (index > 2) {
-                    index = index - 2;
+                if (index > 3) {
+                    index = index - 3;
                 }
                 var filteredGames = games.splice(index, games.length);
 

@@ -13,6 +13,7 @@ case class Game(startTime: String, round: Int,
     val format = DateTimeFormat.forPattern("yyyy/MM/dd")
     val startDate = format.parseDateTime(startTime)
     startDate + 18.hours > dateTime
+    false
   }
   
   def tippsAccepted: Boolean = {
