@@ -25,6 +25,9 @@ class Bookie(implicit system: ActorSystem) extends Processor with ActorLogging {
   import Bookie._
   
   override def receive = {
+    case Persistent(PlaceBet(tipp, time), sequenceNr) if !recoveryFinished =>
+      self ! UpdateBets(tipp, sender)
+    	
 	case Persistent(PlaceBet(tipp, time), sequenceNr) =>
 	  val respondTo = sender
 	    games.find(_.gameId == tipp.gameId) match {
