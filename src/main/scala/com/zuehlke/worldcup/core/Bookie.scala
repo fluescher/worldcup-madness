@@ -13,6 +13,7 @@ import scala.concurrent.duration._
 import akka.util.Timeout
 import akka.actor.ActorSystem
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 
 class Bookie(implicit system: ActorSystem) extends Processor with ActorLogging {
   
@@ -23,6 +24,9 @@ class Bookie(implicit system: ActorSystem) extends Processor with ActorLogging {
   private var tipps: List[Tipp] = Nil
   private var games: List[Game] = Nil
   import Bookie._
+  
+  val startTime = new DateTime(DateTimeZone.forID("Europe/Dublin"))
+  log.info(s"Server time in Europe/Zurich: ${startTime}")
   
   override def receive = {
     case Persistent(PlaceBet(tipp, time), sequenceNr) if !recoveryFinished =>
