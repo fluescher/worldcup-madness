@@ -8,7 +8,6 @@ worldcup.controller('NavbarCtrl', function ($scope, $location, Auth) {
     };
 
     $scope.isLoggedIn = function () {
-        console.log($scope.user.name);
         return Auth.isLoggedIn();
     };
 
