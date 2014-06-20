@@ -19,7 +19,7 @@ trait BootedCore extends Core {
   val mongoHost = sys.env("MONGOHQ_URL")
   val backup = ConfigFactory.parseString("casbah-journal.mongo-journal-url = \""+mongoHost+"\"")  
   val config = ConfigFactory.defaultReference()
-println(backup)  
+println(config.withFallback(backup))  
   implicit val system = ActorSystem("worldcup-madness", config.withFallback(backup))
   
   override val gameManager = system.actorOf(GameManager.props, name ="gameManager")
