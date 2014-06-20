@@ -49,6 +49,4 @@ scalacOptions ++= Seq(
 
 jarName in assembly := "worldcup-madness.jar"
 
-cleanFiles <+= baseDirectory { base => base / "journal" }
-
-cleanFiles <+= baseDirectory { base => base / "snapshots" }
+resourceDirectory in stage := baseDirectory.value / "src" / "main" / "heroku-resources"

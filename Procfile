@@ -1,1 +1,2 @@
-web: target/start com.zuehlke.worldcup.Heroku
+web: target/start -Dcasbah-journal.mongo-journal-url="${MONGOHQ_URL}.journal"
+ com.zuehlke.worldcup.Heroku
