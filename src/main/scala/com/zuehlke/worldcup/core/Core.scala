@@ -16,8 +16,6 @@ trait Core {
 }
 
 trait BootedCore extends Core {
-//  System.setProperty("casbah-journal.mongo-journal-url", sys.env("MONGOHQ_URL")+".journal")
-//  println("PROP: " + System.getProperty("casbah-journal.mongo-journal-url"))
   implicit val system = ActorSystem("worldcup-madness")//, config.withFallback(backup))
   
   override val gameManager = system.actorOf(GameManager.props, name ="gameManager")
