@@ -1,14 +1,12 @@
 'use strict';
 
-worldcup.controller('NavbarCtrl', function ($scope, $location, Auth) {
+worldcup.controller('NavbarCtrl', function ($scope, $location, $rootScope, Auth) {
     $scope.navClass = function (page) {
         var currentRoute = $location.path().substring(1) || 'games';
-        page = page === 'user/' ? page + $scope.user.name : page;
-        return page === currentRoute ? 'active' : '';
+        return currentRoute.indexOf(page) > -1 ? 'active' : '';
     };
 
     $scope.isLoggedIn = function () {
-        console.log($scope.user.name);
         return Auth.isLoggedIn();
     };
 
@@ -16,8 +14,10 @@ worldcup.controller('NavbarCtrl', function ($scope, $location, Auth) {
         Auth.logout();
     };
 
-    Auth.getUser(function(user) {
-        $scope.user = user;
+    $scope.user = null;
+
+    $rootScope.$on('Auth:loginSuccess', function(){
+        $scope.user = Auth.getUser();
     });
 
 });

@@ -42,7 +42,7 @@ worldcup.controller('UserCtrl', function ($scope, Ranking, Games, Tipps, $routeP
 
             var filteredGames = [];
             angular.forEach(games, function (game) {
-                if (angular.isDefined(game.tip) && !game.tippsAccepted) {
+                if (angular.isDefined(game.tip) && angular.isDefined(game.tip.tippResult)) {
                     filteredGames.push(game);
                 }
             });

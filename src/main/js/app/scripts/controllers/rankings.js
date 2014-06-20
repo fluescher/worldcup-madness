@@ -18,10 +18,14 @@ worldcup.controller('RankingsCtrl', function ($scope, Auth, Ranking) {
     });
 
     $scope.yourRank = function () {
-        for (var i = 0; i < $scope.rankings.length; i++) {
-            if ($scope.rankings[i].username === Auth.getUser().name) {
-                return $scope.rankings[i].rank;
+        if (Auth.isLoggedIn()) {
+            for (var i = 0; i < $scope.rankings.length; i++) {
+                if ($scope.rankings[i].username === Auth.getUser().name) {
+                    return $scope.rankings[i].rank;
+                }
             }
+        } else {
+            return '';
         }
     };
 
