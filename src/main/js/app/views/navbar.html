@@ -13,21 +13,21 @@
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav" ng-show="!isLoggedIn()">
+            <ul class="nav navbar-nav" ng-show="!isLoggedIn()" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <li ng-class="navClass('login')"><a href="#/login">Login</a></li>
                 <li ng-class="navClass('register')"><a href="#/register">Register</a></li>
             </ul>
-            <ul class="nav navbar-nav" ng-show="isLoggedIn()">
+            <ul class="nav navbar-nav" ng-show="isLoggedIn()" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <li ng-class="navClass('games')"><a href="#">Games</a></li>
-                <li ng-class="navClass('ranking')"><a href="#/rankings">Ranking</a></li>
-                <li ng-class="navClass('user')"><a ng-href="#/user/{{user.name}}">My Profile</a></li>
-                <li ng-class="navClass('rule')"><a href="https://github.com/fluescher/worldcup-madness/wiki/Rules-of-the-game">Rules</a></li>
+                <li ng-class="navClass('rankings/')"><a href="#/rankings">Ranking</a></li>
+                <li ng-class="navClass('user/')"><a ng-href="#/user/{{user.name}}">My Profile</a></li>
+                <li ng-class="navClass('rule/')"><a href="https://github.com/fluescher/worldcup-madness/wiki/Rules-of-the-game">Rules</a></li>
             </ul>
             <form class="navbar-form navbar-right" role="search" ng-show="isLoggedIn()">
                 <button type="submit" class="btn btn-default" ng-click="logout();">Logout</button>
             </form>
             <ul class="nav navbar-nav navbar-right" ng-show="isLoggedIn()">
-                <li><a ng-href=="#/user/{{user.name}}">User: {{user.name}}</a></li>
+                <li><a ng-href="#/user/{{user.name}}">User: {{user.name}}</a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
