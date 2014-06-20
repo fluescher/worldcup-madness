@@ -5,6 +5,7 @@ import akka.persistence.Persistent
 import akka.actor.ActorRef
 import com.zuehlke.worldcup.core.model.User
 import com.zuehlke.worldcup.core.model.Tipp
+import com.typesafe.config.ConfigFactory
 
 trait Core {
   implicit def system: ActorSystem
@@ -15,8 +16,12 @@ trait Core {
 }
 
 trait BootedCore extends Core {
+  val mongoHost = sys.env("MONGOHQ_URL")
+  println(s"MONGOHQ_URL: $mongoHost")
+  val backup = ConfigFactory.parseString(s"casbah-journal.mongo-journal-url = $mongoHost")  
+  
   implicit val system = ActorSystem("worldcup-madness")
-
+  
   override val gameManager = system.actorOf(GameManager.props, name ="gameManager")
   override val bookie = system.actorOf(Bookie.props(gameManager), name = "bookie")
   override val userManager = system.actorOf(UserManager.props, name ="userManager")
