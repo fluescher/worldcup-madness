@@ -10,10 +10,10 @@ case class Game(startTime: String, round: Int,
   def gameId: String = s"${round}-${team1.abbreviation}-${team2.abbreviation}"
   
   def tippsAccepted(dateTime: DateTime): Boolean = {
-    val format = DateTimeFormat.forPattern("yyyy/MM/dd")
+    val format = DateTimeFormat.forPattern("yyyy/MM/dd").withZone(myZone)
     val startDate = format.parseDateTime(startTime)
     println(s"$this: comparing $dateTime with ${startDate.withZone(myZone) + 18.hours}")
-    startDate.withZone(myZone) + 18.hours > dateTime
+    startDate + 18.hours > dateTime
   }
   
   def tippsAccepted: Boolean = {
