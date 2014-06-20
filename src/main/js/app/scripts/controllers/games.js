@@ -7,9 +7,11 @@ worldcup.controller('GamesCtrl', function ($scope, Games, Tipps, Auth) {
             Games.query(function (games) {
                 angular.forEach(tipps, function (tip) {
                     for(var i = 0; i < games.length; i++) {
-                        if (games[i].gameId === tip.gameId && angular.isDefined(tip.tippResult)) {
+                        if (games[i].gameId === tip.gameId) {
                             games[i].tip = tip;
-                            tip.points = tip.tippResult.totalPoint;
+                            if (angular.isDefined(tip.tippResult)) {
+                                tip.points = tip.tippResult.totalPoint;
+                            }
                             break;
                         }
                     }

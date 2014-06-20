@@ -15,6 +15,7 @@ worldcup.factory('Auth', function ($rootScope, $q, $location, BasicAuth, User) {
             if (angular.isFunction(callback)) {
                 callback(user);
             }
+            $rootScope.$broadcast('Auth:loginSuccess');
         });
     }
     loadUser();
@@ -23,6 +24,7 @@ worldcup.factory('Auth', function ($rootScope, $q, $location, BasicAuth, User) {
         errorCallback = error;
 
         BasicAuth.setCredentials(credentials);
+        console.log('Login');
 
         loadUser(success);
     };

@@ -29,7 +29,7 @@ worldcup.config(function ($routeProvider) {
             templateUrl: 'views/user.html',
             controller: 'UserCtrl'
         })
-        .when('/rankings/', {
+        .when('/rankings', {
             templateUrl: 'views/rankings.html',
             controller: 'RankingsCtrl'
         })
