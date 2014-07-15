@@ -27,7 +27,9 @@ class MatchUpdater(val gameManager: ActorRef, val bookie: ActorRef) extends Acto
   override def receive = {
     case UpdateGames => 
       log.info("Updating games")
-      queryAndMap().onSuccess({case games => gameManager ! GamesUpdated(games); bookie ! Bookie.UpdateGames(games)})
+      val future = queryAndMap()
+      future.onSuccess({case games => gameManager ! GamesUpdated(games); bookie ! Bookie.UpdateGames(games)})
+      future.onFailure({case error => println(error)})
   }
   
   object ResponseProtocol extends DefaultJsonProtocol {
@@ -93,8 +95,8 @@ object MatchUpdater {
 	  				  	  team2_key: String, team2_title: String,
 	  				  	  team2_code: String, play_at: String,
 	  				  	  score1: Option[Int], score2: Option[Int],
-	  				  	  score1ot: Option[String], score2ot: Option[String],
-	  				  	  score1p: Option[String], score2p: Option[String])
+	  				  	  score1ot: Option[Int], score2ot: Option[Int],
+	  				  	  score1p: Option[Int], score2p: Option[Int])
   case class RoundResult(event: Event, round: Round, games: List[FootballGame])
   
   def props(gameManager: ActorRef, bookie: ActorRef) =
