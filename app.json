@@ -1,5 +1,5 @@
 {
-    "name": "Worldcup Madness Bet Application",
+    "name": "Worldcup Madness",
     "description": "Soccer Worldcup 2014 bet bpplication. Developed during the Zuehlke Engineering Camp 2014",
     "repository": "https://github.com/fluescher/worldcup-madness",
     "success_url": "/index.html",
