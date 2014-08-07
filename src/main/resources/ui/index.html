@@ -1,15 +1,28 @@
-<!document html>
-
+<!doctype html>
 <html>
     <head>
         <title>It works!</title>
+        <script type="text/javascript">
+            function initTestSteps() {
+                var step1String = 'curl {HOST}/api/register -X POST -H "Content-Type: application/json" -d \'{"name": "String","password": "1234","forename": "String","surname": "String","email": "String"}\'';
+                var step2String = 'curl {HOST}/api/user -X GET -u String:1234 -H "Content-Type: application/json"';
+                var host = window.location.origin;
+                var list = document.getElementById("testStepList");
+
+                var step1 = document.createElement('li');
+                step1.appendChild(document.createTextNode(step1String.replace('{HOST}', host)));
+                var step2 = document.createElement('li');
+                step2.appendChild(document.createTextNode(step2String.replace('{HOST}', host)));
+
+                list.appendChild(step1);
+                list.appendChild(step2);
+            }
+        </script>
     </head>
-    <body>
+    <body onload="initTestSteps()">
         <h1>Worlcup Madness Backend is up and running!</h1>
         <h2>Tests:</h2>
-        <ol>
-            <li>curl {HOST}/api/user -X GET -H "Content-Type: application/json" -d '{"name": "String","password": "1234","forename": "String","surname": "String","email": "String"}'</li>
-            <li>curl {HOST}/api/register -X POST -H "Content-Type: application/json" -d '{"name": "String","password": "1234","forename": "String","surname": "String","email": "String"}'</li>
+        <ol id="testStepList">
         </ol>
     </body>
 </html>
