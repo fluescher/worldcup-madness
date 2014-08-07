@@ -1,0 +1,9 @@
+{
+    "name": "Node.js Sample",
+    "description": "Soccer Worldcup 2014 bet bpplication. Developed during the Zuehlke Engineering Camp 2014",
+    "repository": "https://github.com/fluescher/worldcup-madness",
+    "success_url": "/index.html",
+    "addons": [
+        "mongohq"
+    ]
+}
